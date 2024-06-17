@@ -1,7 +1,7 @@
 ans = []
+tmp = [0, 0, 0]
 
-while True:
-  tmp = [0, 0, 0]
+while True:  
   a, b, c = map(int, input().split())
   tmp[0] = a
   tmp[1] = b
