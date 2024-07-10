@@ -8,11 +8,15 @@ for _ in range(n):
 board.sort(key = lambda x : (-x[1], -x[2], -x[3]))
 
 ans = 0
+cnt = 1
 tmp = []
 for i in range(n):
-  if(tmp != board[i][1:]):
+  if(tmp == board[i][1:]):
+    cnt += 1
+  else:
     tmp = board[i][1:]
-    ans += 1
+    ans += cnt
+    cnt = 1
   if(board[i][0] == k):
     print(ans)
     break
