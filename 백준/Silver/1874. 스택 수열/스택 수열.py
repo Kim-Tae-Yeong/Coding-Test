@@ -21,6 +21,7 @@ for _ in range(n):
     ans.append('-')
   else:
     possible = False
+    break
 
 if(not possible):
   print('NO')
