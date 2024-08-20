@@ -1,20 +1,22 @@
 import sys
+# sys.stdin = open('/Users/kimtaeyeong/BaekJoon/1446/1446.txt', 'rt')
 
-n, d = map(int, input().split())
-shortcuts = []
-
+n, d = map(int, sys.stdin.readline().strip().split())
+info = []
 for _ in range(n):
-    start, end, length = map(int, sys.stdin.readline().strip().split())
-    if end <= d and length < end - start:
-        shortcuts.append((start, end, length))
+  start, end, short = map(int, sys.stdin.readline().strip().split())
+  if(start > d or end > d):
+    continue
+  if(short < end - start):
+    info.append([start, end, short])
 
-distance = list(range(d + 1))
-
+dis = [i for i in range(d + 1)]
+idx = 0
 for i in range(d + 1):
-    if i > 0:
-        distance[i] = min(distance[i], distance[i - 1] + 1)
-    for start, end, length in shortcuts:
-        if i == start and distance[i] + length < distance[end]:
-            distance[end] = distance[i] + length
-
-print(distance[d])
+  if(i != 0):
+    dis[i] = min(dis[i - 1] + 1, dis[i])
+  for start, end, short in info:
+    if(i == start and dis[start] + short < dis[end]):
+      dis[end] = dis[start] + short
+    
+print(dis[-1])
