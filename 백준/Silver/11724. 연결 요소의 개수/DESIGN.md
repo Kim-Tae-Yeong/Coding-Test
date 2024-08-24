@@ -1,13 +1,13 @@
-while(len(q) != 0):
+아래와 같이 bfs 실행 시 시간 초과
 
-    node = q.popleft()
+    while(len(q) != 0):
     
-    visited[node] = True
+        node = q.popleft()
     
-    for elem in graph[node]:
+        visited[node] = True
     
-      if(not visited[elem]):
+        for elem in graph[node]:
+    
+          if(not visited[elem]):
       
-        q.append(elem)
-
-위와 같이 dfs 실행시 시간 초과
+            q.append(elem)
