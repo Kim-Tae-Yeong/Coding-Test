@@ -1,6 +1,6 @@
 import sys
 # sys.stdin = open('/Users/kimtaeyeong/BaekJoon/11724/11724.txt', 'rt')
-sys.setrecursionlimit(10 ** 6)
+from collections import deque
 
 n, m = map(int, sys.stdin.readline().strip().split())
 graph = [[] for _ in range(n + 1)]
@@ -10,16 +10,21 @@ for _ in range(m):
   graph[v].append(u)
 
 visited = [False for _ in range(n + 1)]
-def dfs(start):
+def bfs(start):
+  q = deque([])
+  q.append(start)
   visited[start] = True
-  for elem in graph[start]:
-    if(not visited[elem]):
-      dfs(elem)
+  while(len(q) != 0):
+    node = q.popleft()
+    for elem in graph[node]:
+      if(not visited[elem]):
+        visited[elem] = True
+        q.append(elem)
 
 ans = 0
 for i in range(1, n + 1):
   if(not visited[i]):
     ans += 1
-    dfs(i)
+    bfs(i)
 
 print(ans)
