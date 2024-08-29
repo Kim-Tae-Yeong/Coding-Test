@@ -4,19 +4,16 @@ import sys
 n, d = map(int, sys.stdin.readline().strip().split())
 info = []
 for _ in range(n):
-  start, end, short = map(int, sys.stdin.readline().strip().split())
-  if(start > d or end > d):
+  s, e, l = map(int, sys.stdin.readline().strip().split())
+  if(e > d or l > (e - s)):
     continue
-  if(short < end - start):
-    info.append([start, end, short])
+  info.append([s, e, l])
 
-dis = [i for i in range(d + 1)]
-idx = 0
+dp = [i for i in range(d + 1)]
 for i in range(d + 1):
-  if(i != 0):
-    dis[i] = min(dis[i - 1] + 1, dis[i])
-  for start, end, short in info:
-    if(i == start and dis[start] + short < dis[end]):
-      dis[end] = dis[start] + short
-    
-print(dis[-1])
+  dp[i] = min(dp[i - 1] + 1, dp[i])
+  for start, end, length in info:
+    if(i == start and dp[i] + length < dp[end]):
+      dp[end] = dp[i] + length
+
+print(dp[-1])
