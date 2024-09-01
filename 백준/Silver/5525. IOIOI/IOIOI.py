@@ -4,19 +4,34 @@ import sys
 n = int(sys.stdin.readline().strip())
 m = int(sys.stdin.readline().strip())
 s = list(map(str, sys.stdin.readline().strip()))
-length = 2 * n + 1
 
+start = False
 board = []
-for i in range(length):
-  if((i % 2) == 0):
-    board.append('I')
+for i in range(m):
+  if(start):
+    if(s[i - 1] != s[i]):
+      if(s[i] == 'O'):
+        cnt += 1
+      if(i == (m - 1)):
+        if(s[i] == 'I'):
+          board.append(cnt)
+        else:
+          board.append(cnt - 1)
+    else:
+      if(s[i] == 'O'):
+        start = False
+        board.append(cnt - 1)
+      else:
+        board.append(cnt)
+        cnt = 0
   else:
-    board.append('O')
+    if(s[i] == 'I'):
+      start = True
+      cnt = 0
 
 ans = 0
-for i in range(m - length + 1):
-  if(s[i] == 'I'):
-    if(s[i : i + length] == board):
-      ans += 1
+for elem in board:
+  if(elem >= n):
+    ans += (elem - n + 1)
 
 print(ans)
