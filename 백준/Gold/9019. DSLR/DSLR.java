@@ -1,5 +1,5 @@
 import java.io.BufferedReader;
-import java.io.FileReader;
+// import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +63,7 @@ public class Main {
       }
     
       // 연산 L
+      // 주의 123 -> 1230
       List<Integer> l = new ArrayList<>();
       int lNum;
       if (idx < 1000) {
@@ -85,6 +86,7 @@ public class Main {
       }
 
       // 연산 R
+      // 주의 123 -> 3012 (312 X)
       List<Integer> r = new ArrayList<>();
       int rNum;
       if (idx == 1) {
