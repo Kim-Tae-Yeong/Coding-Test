@@ -27,6 +27,8 @@ public class Main {
       cost.add(tmp);
     }
 
+    // dp 배열을 이용해 cost[i]까지 가는 최소 비용을 구함
+    // dfs를 사용하면 시간복잡도가 O(2 ^ n)이 되는데 n = 1000까지 가능하므로 시간초과 발생
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < 3; j++) {
         if (i == 0) {
