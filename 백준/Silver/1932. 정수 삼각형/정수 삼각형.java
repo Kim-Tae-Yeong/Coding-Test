@@ -30,12 +30,15 @@ public class Main {
 
     for (int i = 1; i < n; i++) {
       for (int j = 0; j < i + 1; j++) {
+        // 삼각형의 가장 왼쪽 부분은 방법이 하나밖에 없음
         if (j == 0) {
           dp[i][j] = board.get(i).get(j) + dp[i - 1][j];
         }
+        // 삼각형의 가장 오른쪽 부분은 방법이 하나밖에 없음
         else if (j == i) {
           dp[i][j] = board.get(i).get(j) + dp[i - 1][j - 1];
         }
+        // 그 외 부분은 현재 위치를 (i ,j)라고 했을 때, (i - 1, j - 1)과 (i - 1, j) 두 곳에서 올 수 있음
         else {
           dp[i][j] = Math.max(dp[i - 1][j - 1], dp[i - 1][j]) + board.get(i).get(j);
         }
