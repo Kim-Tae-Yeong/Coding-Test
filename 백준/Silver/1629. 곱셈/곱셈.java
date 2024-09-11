@@ -4,19 +4,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Main {
-  public static long a, b, c;
+  public static long A, B, C, ans;
 
-  public static long mod(long A, long B, long C) {
-    if (B == 0) {
+  public static long cal (long a, long b, long c) {
+    if (b == 0) {
       return 1;
     }
-    long half = mod(A, B / 2, C);
-    half = (half * half) % C;
-
-    if (B % 2 == 1) {
-      half = (half * A) % C;
+    long half = cal(a, b / 2, c);
+    half = (half * half) % c;
+    if (b % 2 == 1) {
+      half = (half * a) % c;
     }
-
     return half;
   }
 
@@ -24,13 +22,13 @@ public class Main {
     // BufferedReader br = new BufferedReader(new FileReader("/Users/kimtaeyeong/CodingTest/BaekJoon/1629/1629.txt"));
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    String[] input = br.readLine().split(" ");
-    a = Integer.parseInt(input[0]);
-    b = Integer.parseInt(input[1]);
-    c = Integer.parseInt(input[2]);
-    
-    System.out.println(mod(a, b, c));
-    
+    String[] num = br.readLine().split(" ");
+    A = Integer.parseInt(num[0]);
+    B = Integer.parseInt(num[1]);
+    C = Integer.parseInt(num[2]);
+
+    ans = cal(A, B, C);
+    System.out.println(ans);
     br.close();
   }
 }
