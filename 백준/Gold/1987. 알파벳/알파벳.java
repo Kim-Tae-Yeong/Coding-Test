@@ -1,44 +1,34 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.InputStreamReader;
-import java.util.Stack;
 
 public class Main {
   public static int R, C, ans;
   public static int[][] map;
-  public static boolean[][] visited;
   public static boolean[] check = new boolean[26];
   public static int[][] dir = new int[][] {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
-  public static Stack<int[]> s = new Stack<>();
 
   public static boolean isInBound (int row, int col) {
     return (0 <= row && row < R && 0 <= col && col < C);
   }
 
-  public static void backTracking (int row, int col) {
+  public static void backTracking (int row, int col, int cnt) {
     for (int[] d : dir) {
       int nr = row + d[0];
       int nc = col + d[1];
       if (isInBound(nr, nc)) {
-        if (!visited[nr][nc]) {
-          // char alphabet = map[nr][nc].toCharArray()[0];
-          int next = map[nr][nc];
-          if (!check[next]) {
-            check[next] = true;
-            visited[nr][nc] = true;
-            s.add(new int[] {nr, nc});
-            backTracking(nr, nc);
-            s.pop();
-            check[next] = false;
-            visited[nr][nc] = false;
-          }
-          else {
-            ans = Math.max(ans, s.size());
-          }
+        int next = map[nr][nc];
+        if (!check[next]) {
+          check[next] = true;
+          backTracking(nr, nc, cnt + 1);
+          check[next] = false;
+        }
+        else {
+          ans = Math.max(ans, cnt);
         }
       }
     }
-    ans = Math.max(ans, s.size());
+    ans = Math.max(ans, cnt);
   }
   public static void main (String[] args) throws Exception {
     // BufferedReader br = new BufferedReader(new FileReader("/Users/kimtaeyeong/CodingTest/BaekJoon/1987/1987.txt"));
@@ -49,7 +39,6 @@ public class Main {
     C = Integer.parseInt(num[1]);
 
     map = new int[R][C];
-    visited = new boolean[R][C];
 
     for (int i = 0; i < R; i++) {
       // map[i] = br.readLine().split("");
@@ -64,9 +53,7 @@ public class Main {
     // char start = map[0][0].toCharArray()[0];
     int start = map[0][0];    
     check[start] = true;
-    visited[0][0] = true;
-    s.add(new int[] {0, 0});
-    backTracking(0, 0);
+    backTracking(0, 0, 1);
 
     System.out.println(ans);
 
