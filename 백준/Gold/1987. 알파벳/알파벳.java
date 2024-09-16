@@ -5,7 +5,7 @@ import java.util.Stack;
 
 public class Main {
   public static int R, C, ans;
-  public static String[][] map;
+  public static int[][] map;
   public static boolean[][] visited;
   public static boolean[] check = new boolean[26];
   public static int[][] dir = new int[][] {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
@@ -21,14 +21,15 @@ public class Main {
       int nc = col + d[1];
       if (isInBound(nr, nc)) {
         if (!visited[nr][nc]) {
-          char alphabet = map[nr][nc].toCharArray()[0];
-          if (!check[(int)alphabet - 65]) {
-            check[(int)alphabet - 65] = true;
+          // char alphabet = map[nr][nc].toCharArray()[0];
+          int next = map[nr][nc];
+          if (!check[next]) {
+            check[next] = true;
             visited[nr][nc] = true;
             s.add(new int[] {nr, nc});
             backTracking(nr, nc);
             s.pop();
-            check[(int)alphabet - 65] = false;
+            check[next] = false;
             visited[nr][nc] = false;
           }
           else {
@@ -47,17 +48,22 @@ public class Main {
     R = Integer.parseInt(num[0]);
     C = Integer.parseInt(num[1]);
 
-    map = new String[R][C];
+    map = new int[R][C];
     visited = new boolean[R][C];
 
     for (int i = 0; i < R; i++) {
-      map[i] = br.readLine().split("");
+      // map[i] = br.readLine().split("");
+      String input = br.readLine();
+      for (int j = 0; j < C; j++) {
+        map[i][j] = input.charAt(j) - 'A';
+      }
     }
 
     ans = Integer.MIN_VALUE;
 
-    char start = map[0][0].toCharArray()[0];
-    check[(int)start - 65] = true;
+    // char start = map[0][0].toCharArray()[0];
+    int start = map[0][0];    
+    check[start] = true;
     visited[0][0] = true;
     s.add(new int[] {0, 0});
     backTracking(0, 0);
