@@ -3,19 +3,25 @@ import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class Main {
-  public static int n, leafNode, ans;
+public class Main_1967 {
+  public static int n, ans;
+  // graph.get(i) : [i에서 출발해서 도착하는 Node, 해당 cost]
   public static List<List<int[]>> graph = new ArrayList<>();
+  // visited[i] : i번째 node 방문 여부 확인
   public static boolean[] visited;
 
+  // dfs를 이용해 한 node에서 다른 node까지 가는 cost 계산
   private static void dfs(int node, int cnt) {
+    // 현재 node 방문 여부 true
     visited[node] = true;
     for (int[] elem : graph.get(node)) {
       if (!visited[elem[0]]) {
         dfs(elem[0], cnt + elem[1]);
       }
     }
+    // 현재 node에서 갈 수 있는 모든 node를 처리하면 방문 여부 false
     visited[node] = false;
+    // 한 node에서 다른 node까지 가는 경로 중 최댓값 구함
     ans = Math.max(ans, cnt);
   }
 
@@ -41,7 +47,7 @@ public class Main {
       graph.get(end).add(new int[] {start, cost});
     }
 
-    for (int i = leafNode; i < n + 1; i++) {
+    for (int i = 1; i < n + 1; i++) {
       dfs(i, 0);
     }
 
