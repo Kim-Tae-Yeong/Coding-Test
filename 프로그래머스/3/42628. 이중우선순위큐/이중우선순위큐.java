@@ -5,6 +5,7 @@ class Solution {
 
     public int[] solution(String[] operations) {
         int[] answer = new int[2];
+        // TreeMap : key 값이 오름차순 정렬된 map
         TreeMap<Integer, Integer> tm = new TreeMap<>();
         for (String elem : operations) {
             String[] cmd = elem.split(" ");
