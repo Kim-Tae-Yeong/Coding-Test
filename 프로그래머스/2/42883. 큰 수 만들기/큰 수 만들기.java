@@ -3,7 +3,7 @@ class Solution {
     
 
     public String solution(String number, int k) {
-       String answer = "";
+        String answer = "";
         int start = 0;
         int length = number.length();
         int cnt = length - k;
