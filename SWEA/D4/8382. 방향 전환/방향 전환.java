@@ -18,10 +18,13 @@ public class Solution {
     for (int i = 0; i < t; i++) {
       String[] input = br.readLine().split(" ");
       Queue<int[]> q = new LinkedList<>();
-      boolean[][][] visited = new boolean[201][201][2]; // 세 번째 차원으로 방향을 추가
+      // visited를 탐색할 때 가로, 세로 방향도 같이 탐색해야 함
+      // 아니면 시간 초과 발생
+      boolean[][][] visited = new boolean[201][201][2];
       int[] start = { Integer.parseInt(input[0]) + 100, Integer.parseInt(input[1]) + 100 };
       int[] end = { Integer.parseInt(input[2]) + 100, Integer.parseInt(input[3]) + 100 };
 
+      // 시작 위치에서 가로, 세로 방향을 큐에 넣음
       q.add(new int[] { start[0], start[1], 0, 0 });
       q.add(new int[] { start[0], start[1], 1, 0 });
       visited[start[0]][start[1]][0] = true;
