@@ -1,7 +1,5 @@
-
 class Solution {
     
-
     public String solution(String number, int k) {
         String answer = "";
         int start = 0;
