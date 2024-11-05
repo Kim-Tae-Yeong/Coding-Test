@@ -3,11 +3,12 @@ class Solution {
     
 
     public String solution(String number, int k) {
-        String answer = "";
+       String answer = "";
         int start = 0;
         int length = number.length();
         int cnt = length - k;
         int end = length - cnt + 1;
+        StringBuilder sb = new StringBuilder();
         while (true) {
             if (cnt == 0) {
                 break;
@@ -27,10 +28,11 @@ class Solution {
                     break;
                 }
             }
-            answer += max_num;
+            sb.append(max_num);
             cnt -= 1;
             end = length - start - cnt + 1;
         }
+        answer = sb.toString();
         return answer;
     }
 }
