@@ -71,6 +71,7 @@ class Solution {
                         break;
                     }
                     q.add(new int[] { elem, cnt + 1 });
+                    visited[elem] = true;
                 }
             }
             if (answer != 0) {
