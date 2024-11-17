@@ -30,6 +30,7 @@ public class Main {
       graph.add(tmp);
     }
 
+    // 그래프 정보 저장
     for (int i = 0; i < M; i++) {
       String[] input = br.readLine().split(" ");
       int start = Integer.parseInt(input[0]);
@@ -37,7 +38,10 @@ public class Main {
       graph.get(start).add(end);
     }
 
+    // dis[i] : 시작 노드에서 i까지의 최단 거리
     dis = new int[N + 1];
+
+    // q에 시작 지점에서 갈 수 있는 노드 저장
     for (int elem : graph.get(X)) {
       q.add(new int[] { elem, 1 });
     }
@@ -46,11 +50,14 @@ public class Main {
       int[] info = q.poll();
       int node = info[0];
       int cnt = info[1];
+      // 이전에 방문한 적 없고 시작 노드가 아닌 노드에 대해 최단 거리 갱신
       if (dis[node] == 0 && node != X) {
         dis[node] = cnt;
+        // 최단 거리가 K이면 정답에 저장
         if (cnt == K) {
           answer.add(node);
         }
+        // 현재 노드에서 갈 수 있는 노드 중 방문한 적 없고 시작 노드가 아닌 노드 탐색
         for (int elem : graph.get(node)) {
           if (dis[elem] == 0 && elem != X) {
             q.add(new int[] { elem, cnt + 1 });
