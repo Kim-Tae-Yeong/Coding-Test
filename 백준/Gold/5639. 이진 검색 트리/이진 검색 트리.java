@@ -8,7 +8,7 @@ public class Main_5639 {
     node leftNode;
     node rightNode;
 
-    // tree의 root node 초기화
+    // tree의 node 생성
     node(int num) {
       this.num = num;
       this.leftNode = null;
