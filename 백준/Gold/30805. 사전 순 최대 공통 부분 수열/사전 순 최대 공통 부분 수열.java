@@ -6,13 +6,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
-public class Main {
+public class Main_30805 {
   private static int N, M, K;
   private static int[] A, B;
+  // dp : 사전 순 최대 공통 부분 수열의 길이
   private static int[][] dp;
+  // l : 사전 순 최대 공통 부분 수열
   private static List<List<Stack<Integer>>> l = new ArrayList<>();
   private static StringBuilder sb = new StringBuilder();
 
+  // A[i]와 B[j]가 다를 때, (i - 1, j) 위치의 수열과 (i, j - 1) 위치의 수열 중 사전 순으로 나중인 수열 찾기
   private static int check(Stack<Integer> s1, Stack<Integer> s2) {
     int length = Math.min(s1.size(), s2.size());
     for (int i = 0; i < length; i++) {
@@ -61,6 +64,7 @@ public class Main {
 
     for (int i = 1; i < M + 1; i++) {
       for (int j = 1; j < N + 1; j++) {
+        // 두 수열의 숫자가 같으면 (i - 1, j - 1) 위치의 수열에 현재 위치의 숫자를 더한 후 사전 순으로 가장 나중인 수열 찾기
         if (B[i - 1] == A[j - 1]) {
           Stack<Integer> before = l.get(i - 1).get(j - 1);
           Stack<Integer> tmp = new Stack<>();
@@ -97,14 +101,6 @@ public class Main {
       }
 
     }
-
-    // for (int[] row : dp) {
-    // System.out.println(Arrays.toString(row));
-    // }
-
-    // for (List<Stack<Integer>> elem : l) {
-    // System.out.println(elem);
-    // }
 
     K = dp[M][N];
     System.out.println(K);
