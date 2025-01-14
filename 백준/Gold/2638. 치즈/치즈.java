@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class Main {
+public class Main_2638 {
   static int N, M;
   static int[][] map;
   static boolean[][] visited;
@@ -12,14 +12,16 @@ public class Main {
     int time = 0;
 
     while (true) {
+      // 매 시간마다 방문 여부 초기화
       visited = new boolean[N][M];
+      // 치즈가 없으면 종료
       if (!hasCheese())
-        break; 
+        break;
 
-      
+      // 외부 공기를 표시
       markAir(0, 0);
 
-      
+      // 치즈 녹이기
       meltCheese();
 
       time++;
@@ -42,8 +44,11 @@ public class Main {
     Queue<int[]> queue = new LinkedList<>();
     queue.offer(new int[] { x, y });
     visited[x][y] = true;
-    map[x][y] = -1; 
+    // (0, 0) 지점을 외부 공기로 표시
+    map[x][y] = -1;
 
+    // BFS를 이용해서 (0, 0) 지점에서 퍼질 수 있는 외부 공기를 표현
+    // 이를 통해 치즈가 외부 공기와 맞닿아 있는지 확인
     while (!queue.isEmpty()) {
       int[] current = queue.poll();
       int cx = current[0], cy = current[1];
@@ -54,7 +59,7 @@ public class Main {
 
         if (nx >= 0 && ny >= 0 && nx < N && ny < M && !visited[nx][ny] && map[nx][ny] <= 0) {
           visited[nx][ny] = true;
-          map[nx][ny] = -1; 
+          map[nx][ny] = -1;
           queue.offer(new int[] { nx, ny });
         }
       }
@@ -66,7 +71,7 @@ public class Main {
 
     for (int i = 0; i < N; i++) {
       for (int j = 0; j < M; j++) {
-        if (map[i][j] == 1) { 
+        if (map[i][j] == 1) {
           int airCount = 0;
           for (int k = 0; k < 4; k++) {
             int nx = i + dx[k];
@@ -85,7 +90,7 @@ public class Main {
     }
 
     for (int[] cheese : toMelt) {
-      map[cheese[0]][cheese[1]] = 0; 
+      map[cheese[0]][cheese[1]] = 0;
     }
   }
 
