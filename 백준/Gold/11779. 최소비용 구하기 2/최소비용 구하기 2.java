@@ -8,7 +8,7 @@ import java.util.PriorityQueue;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
-public class Main {
+public class Main_11779 {
   static int N, M, start, end;
   static StringTokenizer st;
   static List<List<Edge>> graph = new ArrayList<>();
@@ -60,8 +60,8 @@ public class Main {
   }
 
   public static void main(String[] args) throws Exception {
-    // BufferedReader br = new BufferedReader(new FileReader("./11779.txt"));
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    BufferedReader br = new BufferedReader(new FileReader("./11779.txt"));
+    // BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     st = new StringTokenizer(br.readLine());
     N = Integer.parseInt(st.nextToken());
@@ -90,6 +90,7 @@ public class Main {
 
     dijkstra();
     System.out.println(dist[end]);
+    // 경로를 역추적하여 출력
     int num = end;
     while (num != 0) {
       s.push(num);
