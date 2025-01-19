@@ -8,72 +8,60 @@ import java.util.PriorityQueue;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
-public class Main_11779 {
-  static int N, M, start, end;
-  static StringTokenizer st;
+public class Main {
+  static int n, m, start, end;
   static List<List<Edge>> graph = new ArrayList<>();
-  // dist[i] : 시작 지점에서 i까지 가는 최소 비용
-  // path[i] : i로 가기 직전에 방문한 노드
   static int[] dist, path;
-  // 다익스트라를 적용할 떄는 우선순위 큐 사용
-  static PriorityQueue<Edge> pq = new PriorityQueue<>();
-  static Stack<Integer> s = new Stack<>();
 
-  static class Edge implements Comparable<Edge> {
+  static class Edge {
     int to, cost;
 
     public Edge(int to, int cost) {
       this.to = to;
       this.cost = cost;
     }
-
-    // cost가 낮은 순으로 정렬
-    @Override
-    public int compareTo(Edge o) {
-      return Integer.compare(this.cost, o.cost);
-    }
   }
 
-  static void dijkstra() {
+  static void dijkstra(int start) {
     Arrays.fill(dist, Integer.MAX_VALUE);
     dist[start] = 0;
-    // 시작 지점까지 가는 비용이 0인 Edge 추가
+    PriorityQueue<Edge> pq = new PriorityQueue<>((o1, o2) -> o1.cost - o2.cost);
     pq.add(new Edge(start, 0));
-
     while (!pq.isEmpty()) {
       Edge edge = pq.poll();
       int current = edge.to;
       int currentCost = edge.cost;
-      // 등호를 넣으면 같은 비용에 다른 경로를 무시해버림
       if (dist[current] < currentCost) {
         continue;
       }
-      for (Edge next : graph.get(current)) {
-        int nextCost = dist[current] + next.cost;
-        if (nextCost < dist[next.to]) {
-          dist[next.to] = nextCost;
-          path[next.to] = current;
-          pq.add(new Edge(next.to, nextCost));
+      for (Edge e : graph.get(current)) {
+        int newCost = currentCost + e.cost;
+        if (newCost < dist[e.to]) {
+          pq.add(new Edge(e.to, newCost));
+          dist[e.to] = newCost;
+          path[e.to] = current;
         }
       }
     }
   }
 
   public static void main(String[] args) throws Exception {
-    BufferedReader br = new BufferedReader(new FileReader("./11779.txt"));
-    // BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    // BufferedReader br = new BufferedReader(new FileReader("./11779.txt"));
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    n = Integer.parseInt(st.nextToken());
     st = new StringTokenizer(br.readLine());
-    N = Integer.parseInt(st.nextToken());
+    m = Integer.parseInt(st.nextToken());
 
-    st = new StringTokenizer(br.readLine());
-    M = Integer.parseInt(st.nextToken());
+    dist = new int[n + 1];
+    path = new int[n + 1];
 
-    for (int i = 0; i < N + 1; i++) {
+    for (int i = 0; i < n + 1; i++) {
       graph.add(new ArrayList<>());
     }
 
-    for (int i = 0; i < M; i++) {
+    for (int i = 0; i < m; i++) {
       st = new StringTokenizer(br.readLine());
       int from = Integer.parseInt(st.nextToken());
       int to = Integer.parseInt(st.nextToken());
@@ -85,20 +73,19 @@ public class Main_11779 {
     start = Integer.parseInt(st.nextToken());
     end = Integer.parseInt(st.nextToken());
 
-    dist = new int[N + 1];
-    path = new int[N + 1];
-
-    dijkstra();
+    dijkstra(start);
     System.out.println(dist[end]);
-    // 경로를 역추적하여 출력
     int num = end;
+    Stack<Integer> s = new Stack<>();
     while (num != 0) {
-      s.push(num);
+      s.add(num);
       num = path[num];
     }
+
     System.out.println(s.size());
-    while (!s.isEmpty()) {
-      System.out.print(s.pop() + " ");
+    while (!s.empty()) {
+      System.out.print(s.pop());
+      System.out.print(' ');
     }
 
     br.close();
