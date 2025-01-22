@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
-public class Main {
+public class Main_1167 {
   static int V, farestNode;
   static int maxDistance = Integer.MIN_VALUE;
   static List<List<Edge>> graph = new ArrayList<>();
@@ -55,6 +55,7 @@ public class Main {
       graph.add(new ArrayList<>());
     }
 
+    // 간선 정보 저장
     for (int i = 0; i < V; i++) {
       st = new StringTokenizer(br.readLine());
       int start = Integer.parseInt(st.nextToken());
@@ -68,11 +69,14 @@ public class Main {
       }
     }
 
+    // 임의의 정점(여기서는 1번 정점)에서 가장 멀리 떨어진 정점을 찾음
+    // 이 정점이 트리의 지름 중 한 정점이 됨
     distance = new int[V + 1];
     visited = new boolean[V + 1];
     s.add(new Edge(0, 1, 0));
     dfs();
 
+    // 위에서 찾은 정점을 기준으로 가장 멀리 떨어진 정점 & 거리 찾기
     Arrays.fill(distance, 0);
     Arrays.fill(visited, false);
     maxDistance = Integer.MIN_VALUE;
