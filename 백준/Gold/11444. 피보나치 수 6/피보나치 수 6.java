@@ -3,7 +3,7 @@ import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class Main {
+public class Main_11444 {
   static long n;
   static long mod = 1000000007;
 
@@ -17,13 +17,13 @@ public class Main {
 
   static long[][] matrixPower(long[][] matrix, long exp) {
     long[][] result = { { 1, 0 }, { 0, 1 } };
-    long[][] base = matrix;
 
+    // 거듭 제곱을 분할 정복을 이용하여 계산
     while (exp > 0) {
       if ((exp & 1) == 1) {
-        result = matrixMultiply(result, base);
+        result = matrixMultiply(result, matrix);
       }
-      base = matrixMultiply(base, base);
+      matrix = matrixMultiply(matrix, matrix);
       exp >>= 1;
     }
     return result;
