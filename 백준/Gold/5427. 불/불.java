@@ -1,14 +1,14 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class Main {
+public class Main_5427 {
   static int tc, w, h;
   static char[][] map;
+  // 상근이의 방문 여부 저장
   static boolean[][] visited;
   static Queue<int[]> fires, sanggeun;
   static int[][] dir = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
@@ -18,6 +18,7 @@ public class Main {
     return 0 <= row && row < h && 0 <= col && col < w;
   }
 
+  // 현재 시간까지 불을 옮김
   static void spreadFire(int currentTime) {
     while (!fires.isEmpty()) {
       int[] current = fires.peek();
@@ -25,9 +26,12 @@ public class Main {
       int col = current[1];
       int time = current[2];
 
+      // 큐에 가장 앞에 있는 불의 정보를 보고 현재 시간보다 크면 break
       if (time > currentTime) {
         break;
-      } else {
+      }
+      // 아니면 큐에서 빼내고 불을 이동시킴
+      else {
         fires.poll();
       }
 
@@ -42,6 +46,7 @@ public class Main {
     }
   }
 
+  // 이동할 위치 기준으로 상하좌우에 불이 있는지 확인
   static boolean checkFire(int row, int col) {
     for (int[] d : dir) {
       int nr = row + d[0];
@@ -54,6 +59,7 @@ public class Main {
   }
 
   static void bfs() {
+    // 현재 시간을 기록
     int currentTime = 0;
     while (!sanggeun.isEmpty()) {
       int[] current = sanggeun.poll();
@@ -61,6 +67,7 @@ public class Main {
       int col = current[1];
       int time = current[2];
 
+      // 상근이가 1초동안 이동이 끝나면 불을 1초동안 이동시킴
       if (time > currentTime && !fires.isEmpty()) {
         spreadFire(currentTime);
         currentTime++;
@@ -69,11 +76,14 @@ public class Main {
       for (int[] d : dir) {
         int nr = row + d[0];
         int nc = col + d[1];
+        // 경계 밖으로 나가면 탈출
         if (!isInBound(nr, nc)) {
           sb.append(time + 1);
           sb.append("\n");
           return;
-        } else {
+        }
+        // 땅 & 방문하지 않은 곳 & 해당 위치에 불이 옮기지 않을 곳이면 이동
+        else {
           if (map[nr][nc] == '.' && !visited[nr][nc] && !checkFire(nr, nc)) {
             map[nr][nc] = '@';
             map[row][col] = '.';
