@@ -11,8 +11,7 @@ public class Main {
   static void backTracking(int cnt) {
     if (cnt == M) {
       for (int num : ans) {
-        System.out.print(num);
-        System.out.print(" ");
+        System.out.print(num + " ");
       }
       System.out.println();
       return;
