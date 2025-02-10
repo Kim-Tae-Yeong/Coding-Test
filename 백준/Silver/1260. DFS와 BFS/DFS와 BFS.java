@@ -85,7 +85,7 @@ public class Main_1260 {
       graph.get(to).add(from);
     }
 
-    // 노드 버놓가 작은 것부터 방문해야 하므로 오름차순 정렬
+    // 노드 번호가 작은 것부터 방문해야 하므로 오름차순 정렬
     for (int i = 1; i < N + 1; i++) {
       graph.get(i).sort(null);
     }
