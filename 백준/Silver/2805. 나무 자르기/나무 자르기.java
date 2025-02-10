@@ -1,11 +1,12 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class Main {
+public class Main_2805 {
   static int N, M;
+  // left : 나무 최소 길이
+  // right : 나무 최대 길이
   static long left = 0, right = Integer.MIN_VALUE, ans = 0;
   static long[] trees;
 
@@ -35,13 +36,21 @@ public class Main {
     }
 
     while (left <= right) {
+      // 나무 중간 길이를 구함
       long mid = (left + right) / 2;
+      // 중간 길이로 나무들을 짤랐을 때 얼마나 얻을 수 있는지 확인
       long remain = getRemainTree(mid);
 
+      // M보다 많거나 같게 얻을 수 있으면
       if (remain >= M) {
+        // 현재 길이 저장
         ans = mid;
+        // 최소 길이를 늘림
         left = mid + 1;
-      } else {
+      }
+      // M보다 적게 얻으면
+      else {
+        // 최대 길이를 줄임
         right = mid - 1;
       }
     }
