@@ -6,7 +6,7 @@ import java.util.StringTokenizer;
 
 public class Main {
   static int N, M;
-  static long left = 0, right = Integer.MIN_VALUE;
+  static long left = 0, right = Integer.MIN_VALUE, ans = 0;
   static long[] trees;
 
   static long getRemainTree(long size) {
@@ -39,13 +39,14 @@ public class Main {
       long remain = getRemainTree(mid);
 
       if (remain >= M) {
+        ans = mid;
         left = mid + 1;
       } else {
         right = mid - 1;
       }
     }
 
-    System.out.println(right);
+    System.out.println(ans);
 
     br.close();
   }
