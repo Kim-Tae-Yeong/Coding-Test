@@ -1,3 +1,4 @@
+-- case when ~ end as 이름
 select id,
     case
         when size_of_colony <= 100 then 'LOW'
