@@ -4,7 +4,7 @@ select
     sum(b.price) as total_sales
 from
     used_goods_board as b
-    left join used_goods_user as u
+    join used_goods_user as u
     on b.writer_id = u.user_id
 where
     b.status = 'done'
