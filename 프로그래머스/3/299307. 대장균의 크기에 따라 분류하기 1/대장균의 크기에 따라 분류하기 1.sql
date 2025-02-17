@@ -1,8 +1,11 @@
--- case when ~ end as 이름
-select id,
+select
+    id,
     case
         when size_of_colony <= 100 then 'LOW'
-        when size_of_colony > 100 and size_of_colony <= 1000 then 'MEDIUM'
-        when size_of_colony > 1000 then 'HIGH'
+        when size_of_colony <= 1000 then 'MEDIUM'
+        else 'HIGH'
     end as size
-from ecoli_data;
+from
+    ecoli_data
+order by
+    1
