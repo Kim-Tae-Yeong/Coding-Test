@@ -1,6 +1,22 @@
-select e3.id
-from ecoli_data e1
-join ecoli_data e2 on e2.parent_id = e1.id
-join ecoli_data e3 on e3.parent_id = e2.id
-where e1.parent_id is null
-order by e3.id;
+select
+    id
+from
+    ecoli_data
+where
+    parent_id in (
+        select
+            id
+        from
+            ecoli_data
+        where
+            parent_id in (
+                select
+                    id
+                from 
+                    ecoli_data
+                where
+                    parent_id is null
+            )
+    )
+order by
+    1
