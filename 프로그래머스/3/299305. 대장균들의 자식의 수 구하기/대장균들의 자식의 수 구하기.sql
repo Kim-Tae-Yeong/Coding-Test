@@ -1,17 +1,14 @@
-select id, (select count(*) from ecoli_data where parent_id = e.id) as child_count
-from ecoli_data as e
-order by id;
-
--- SELECT 
---     parent.ID, 
---     COUNT(child.ID) AS CHILD_COUNT
--- FROM 
---     ECOLI_DATA AS parent
--- LEFT JOIN 
---     ECOLI_DATA AS child
--- ON 
---     parent.ID = child.PARENT_ID
--- GROUP BY 
---     parent.ID
--- ORDER BY 
---     parent.ID;
+select
+    p.id,
+    case
+        when sum(c.id) is null then 0
+        else count(*)
+    end as child_count
+from
+    ecoli_data as p
+    left join ecoli_data as c
+    on p.id = c.parent_id
+group by
+    p.id
+order by
+    1
