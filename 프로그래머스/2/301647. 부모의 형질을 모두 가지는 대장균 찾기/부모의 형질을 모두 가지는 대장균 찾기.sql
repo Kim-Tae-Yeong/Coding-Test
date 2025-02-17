@@ -1,4 +1,12 @@
-select child.id, child.genotype, parent.genotype as parent_genotype
-from ecoli_data as parent left join ecoli_data as child
-    on parent.id = child.parent_id
-where parent.genotype & child.genotype = parent.genotype;
+select
+    c.id,
+    c.genotype,
+    p.genotype as parent_genotype
+from
+    ecoli_data as p
+    join ecoli_data as c
+    on p.id = c.parent_id
+where
+    c.genotype & p.genotype = p.genotype
+order by
+    1
