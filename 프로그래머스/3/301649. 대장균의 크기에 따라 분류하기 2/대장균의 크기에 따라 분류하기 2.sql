@@ -1,16 +1,20 @@
-with RankedEcoli as (
+with ecoli_divided as (
     select
         id,
-        ntile(4) over (order by size_of_colony desc) as RankGroup
-    from ecoli_data
+        ntile(4) over(order by size_of_colony desc) as num
+    from
+        ecoli_data
 )
+
 select
     id,
     case
-        when RankGroup = 1 then 'CRITICAL'
-        when RankGroup = 2 then 'HIGH'
-        when RankGroup = 3 then 'MEDIUM'
+        when num = 1 then 'CRITICAL'
+        when num = 2 then 'HIGH'
+        when num = 3 then 'MEDIUM'
         else 'LOW'
     end as colony_name
-from RankedEcoli
-order by id;
+from
+    ecoli_divided
+order by
+    1
