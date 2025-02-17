@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class Main {
+public class Main_1449 {
   static int N, L;
   static int ans = 0;
   static List<Integer> l = new ArrayList<>();
@@ -27,9 +27,13 @@ public class Main {
 
     l.sort(null);
 
+    // 물이 새는 곳의 위치를 확인
     for (int i = 0; i < N; i++) {
+      // 현재 물이 새는 곳의 위치가 테이프의 끝자리보다 먼 곳이면
       if (l.get(i) > end) {
+        // 테이프 추가
         ans++;
+        // 테이프 끝자리 갱신
         end = l.get(i) - 0.5 + L;
       }
     }
