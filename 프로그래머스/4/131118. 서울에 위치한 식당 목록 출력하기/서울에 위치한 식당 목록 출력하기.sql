@@ -1,8 +1,18 @@
--- REST_INFO as i inner join REST_REVIEW as r on i.REST_ID = r.REST_ID : 두 table을 REST_ID 기준으로 join
--- like '서울%' : 서울로 시작하는 경우
--- group by i.REST_ID : REST_ID마다 한 줄씩 결과 출력(group by를 사용하지 않으면 전체 평균 하나만 반환)
-select i.REST_ID, i.REST_NAME, i.FOOD_TYPE, i.FAVORITES, i.ADDRESS, round(avg(r.REVIEW_SCORE), 2) as SCORE
-from REST_INFO as i inner join REST_REVIEW as r on i.REST_ID = r.REST_ID
-where ADDRESS like "서울%"
-group by i.REST_ID
-order by SCORE desc, FAVORITES desc;
+select
+    i.rest_id,
+    i.rest_name,
+    i.food_type,
+    i.favorites,
+    i.address,
+    round(avg(r.review_score), 2) as score
+from
+    rest_info as i
+    join rest_review as r
+    on i.rest_id = r.rest_id
+where
+    i.address like '서울%'
+group by
+    i.rest_id
+order by
+    score desc,
+    favorites desc
