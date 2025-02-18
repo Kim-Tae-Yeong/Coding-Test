@@ -1,17 +1,19 @@
 select
-    item_id,
-    item_name,
-    rarity
+    i.item_id,
+    i.item_name,
+    i.rarity
 from
-    item_info
+    item_info as i
+    join item_tree as t
+    on i.item_id = t.item_id
 where
-    item_id not in (
+    i.item_id not in (
         select
-            distinct parent_item_id
+            parent_item_id
         from
             item_tree
         where
             parent_item_id is not null
     )
 order by
-    item_id desc;
+    1 desc
