@@ -1,2 +1,4 @@
-select count(*)
-from animal_ins;
+select
+    count(*)
+from
+    animal_ins
