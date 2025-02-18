@@ -3,4 +3,6 @@ select
 from
     animal_ins
 where
-    name is not null;
+    name is not null
+order by
+    1
