@@ -6,4 +6,6 @@ select
 from
     food_warehouse
 where
-    address like '경기도%';
+    address like '경기도%'
+order by
+    1
