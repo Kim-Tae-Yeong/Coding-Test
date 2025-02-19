@@ -6,4 +6,4 @@ from
 group by
     month(time)
 order by
-    month(time);
+    2
