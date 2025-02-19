@@ -4,10 +4,9 @@ select
     d.first_name,
     d.last_name
 from
-    skillcodes as s
-    join developers as d
-    on d.skill_code & s.code = s.code
-where
-    s.category = 'front end'
+    developers as d
+    join skillcodes as s
+    on d.skill_code & s.code = s.code and
+    s.category = 'Front End'
 order by
-    d.id
+    1
