@@ -7,6 +7,6 @@ from
 group by
     fish_type
 having
-    sum(length) >= 33
+    avg(length) >= 33
 order by
-    fish_type;
+    fish_type
