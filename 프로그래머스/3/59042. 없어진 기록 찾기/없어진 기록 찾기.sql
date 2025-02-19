@@ -11,5 +11,4 @@ where
             animal_ins
     )
 order by
-    animal_id,
-    name
+    1
