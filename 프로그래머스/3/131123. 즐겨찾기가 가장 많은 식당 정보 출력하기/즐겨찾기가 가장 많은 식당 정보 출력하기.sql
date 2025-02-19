@@ -16,4 +16,4 @@ where
             food_type
     )
 order by
-    food_type desc;
+    1 desc
