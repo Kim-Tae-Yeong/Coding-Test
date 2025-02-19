@@ -1,9 +1,9 @@
 select
-    a.score as score,
-    e.emp_no as emp_no,
-    e.emp_name as emp_name,
-    e.position as position,
-    e.email as email
+    g.score,
+    e.emp_no,
+    e.emp_name,
+    e.position,
+    e.email
 from
     hr_employees as e
     join (
@@ -14,8 +14,9 @@ from
             hr_grade
         group by
             emp_no
-    ) as a
-    on e.emp_no = a.emp_no
-order by
-    a.score desc
-limit 1;
+        order by
+            2 desc
+        limit
+            1
+    ) as g
+    on e.emp_no = g.emp_no
