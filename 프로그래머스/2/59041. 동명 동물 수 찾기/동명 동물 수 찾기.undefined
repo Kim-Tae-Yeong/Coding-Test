@@ -10,4 +10,4 @@ group by
 having
     count(*) >= 2
 order by
-    name;
+    1
