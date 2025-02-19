@@ -9,4 +9,4 @@ from
 where
     b.category = '경제'
 order by
-    b.published_date
+    3
