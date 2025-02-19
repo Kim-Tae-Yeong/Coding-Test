@@ -9,4 +9,4 @@ from
 group by
     car_id
 order by
-    car_id desc;
+    1 desc
