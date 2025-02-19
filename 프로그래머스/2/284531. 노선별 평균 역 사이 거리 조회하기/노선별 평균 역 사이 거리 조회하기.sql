@@ -7,4 +7,4 @@ from
 group by
     route
 order by
-    sum(d_between_dist) desc;
+    sum(d_between_dist) desc
