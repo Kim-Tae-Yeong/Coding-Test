@@ -4,9 +4,9 @@ select
 from
     appointment
 where
-    date_format(apnt_ymd, '%Y-%m-%d') between '2022-05-01' and '2022-05-31'
+    apnt_ymd like '2022-05%'
 group by
     mcdp_cd
 order by
-    count(*),
-    mcdp_cd;
+    2,
+    1
