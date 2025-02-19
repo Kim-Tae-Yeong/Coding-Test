@@ -12,5 +12,5 @@ group by
     p.product_id,
     p.product_name
 order by
-    total_sales desc,
-    p.product_id
+    3 desc,
+    1
