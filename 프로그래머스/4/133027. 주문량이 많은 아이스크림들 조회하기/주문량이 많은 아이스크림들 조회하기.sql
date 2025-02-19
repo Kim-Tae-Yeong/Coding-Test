@@ -1,4 +1,4 @@
-with july_total as (
+with total_july as (
     select
         flavor,
         sum(total_order) as total_order
@@ -12,9 +12,9 @@ select
     h.flavor
 from
     first_half as h
-    join july_total as t
-    on h.flavor = t.flavor
+    join total_july as j
+    on h.flavor = j.flavor
 order by
-    (h.total_order + t.total_order) desc
+    h.total_order + j.total_order desc
 limit
     3
