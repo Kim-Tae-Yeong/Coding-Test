@@ -6,4 +6,4 @@ from
 group by
     animal_type
 order by
-    animal_type;
+    1
