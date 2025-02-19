@@ -7,11 +7,11 @@ from
     join used_goods_user as u
     on b.writer_id = u.user_id
 where
-    b.status = 'done'
+    b.status = 'DONE'
 group by
     u.user_id,
     u.nickname
 having
     sum(b.price) >= 700000
 order by
-    sum(b.price);
+    3
