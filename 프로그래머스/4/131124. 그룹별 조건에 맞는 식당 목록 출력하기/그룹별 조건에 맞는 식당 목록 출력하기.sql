@@ -1,4 +1,4 @@
-with count as (
+with max_review as (
     select
         member_id,
         count(*) as count
@@ -7,8 +7,9 @@ with count as (
     group by
         member_id
     order by
-        count desc
-    limit 1
+        2 desc
+    limit
+        1
 )
 
 select
@@ -19,8 +20,13 @@ from
     member_profile as m
     join rest_review as r
     on m.member_id = r.member_id
-    join count as c
-    on m.member_id = c.member_id
+where
+    r.member_id in (
+        select
+            member_id
+        from
+            max_review
+    )
 order by
-    review_date,
-    review_text
+    3,
+    2
