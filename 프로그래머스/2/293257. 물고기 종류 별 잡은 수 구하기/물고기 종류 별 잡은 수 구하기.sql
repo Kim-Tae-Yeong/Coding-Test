@@ -1,11 +1,11 @@
 select
     count(i.id) as fish_count,
-    n.fish_name
+    fish_name
 from
-    fish_name_info as n
-    join fish_info as i
-    on n.fish_type = i.fish_type
+    fish_info as i
+    join fish_name_info as n
+    on i.fish_type = n.fish_type
 group by
-    n.fish_name
+    fish_name
 order by
-    count(i.id) desc;
+    1 desc
