@@ -8,4 +8,4 @@ where
 group by
     hour(datetime)
 order by
-    hour(datetime);
+    1
