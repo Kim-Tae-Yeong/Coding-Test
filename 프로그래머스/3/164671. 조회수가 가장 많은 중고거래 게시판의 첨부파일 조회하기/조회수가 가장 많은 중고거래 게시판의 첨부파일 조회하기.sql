@@ -1,6 +1,6 @@
 select
     concat(
-        "/home/grep/src/",
+        '/home/grep/src/',
         f.board_id,
         "/",
         f.file_id,
@@ -11,7 +11,7 @@ from
     used_goods_file as f
     join (
         select
-            *
+            board_id
         from
             used_goods_board
         order by
@@ -21,4 +21,4 @@ from
     ) as b
     on f.board_id = b.board_id
 order by
-    file_path desc
+    f.file_id desc
