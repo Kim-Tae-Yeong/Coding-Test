@@ -1,11 +1,11 @@
-select
-    i.animal_id,
-    i.name
-from
-    animal_ins as i
-    join animal_outs as o
-    on i.animal_id = o.animal_id
-order by
-    datediff(o.datetime, i.datetime) desc
-limit
+SELECT
+    I.ANIMAL_ID,
+    I.NAME
+FROM
+    ANIMAL_INS AS I
+    JOIN ANIMAL_OUTS AS O
+    ON I.ANIMAL_ID = O.ANIMAL_ID
+ORDER BY
+    DATEDIFF(O.DATETIME, I.DATETIME) DESC
+LIMIT
     2
