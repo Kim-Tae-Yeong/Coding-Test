@@ -1,11 +1,11 @@
-select
-    distinct c.car_id
-from
-    car_rental_company_car as c
-    join car_rental_company_rental_history as h
-    on c.car_id = h.car_id
-where
-    c.car_type = '세단'
-    and h.start_date like '2022-10%'
-order by
-    c.car_id desc
+SELECT
+    DISTINCT C.CAR_ID
+FROM
+    CAR_RENTAL_COMPANY_CAR AS C
+    JOIN CAR_RENTAL_COMPANY_RENTAL_HISTORY AS H
+    ON C.CAR_ID = H.CAR_ID AND
+    C.CAR_TYPE = '세단'
+WHERE
+    H.START_DATE LIKE '2022-10%'
+ORDER BY
+    1 DESC
