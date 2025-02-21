@@ -1,10 +1,10 @@
-select
-    animal_id,
-    name
-from
-    animal_ins
-where
-    name like '%el%'
-    and animal_type = 'dog'
-order by
-    name
+SELECT
+    ANIMAL_ID,
+    NAME
+FROM
+    ANIMAL_INS
+WHERE
+    ANIMAL_TYPE = 'DOG' AND
+    NAME LIKE '%EL%'
+ORDER BY
+    NAME
