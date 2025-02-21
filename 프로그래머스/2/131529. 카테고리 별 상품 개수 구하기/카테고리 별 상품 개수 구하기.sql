@@ -1,9 +1,9 @@
-select
-    left(product_code, 2) as category,
-    count(*) as products
-from
-    product
-group by
-    category
-order by
-    category
+SELECT
+    SUBSTRING(PRODUCT_CODE, 1, 2) AS CATEGORY,
+    COUNT(*) AS PRODUCT
+FROM
+    PRODUCT
+GROUP BY
+    CATEGORY
+ORDER BY
+    1
