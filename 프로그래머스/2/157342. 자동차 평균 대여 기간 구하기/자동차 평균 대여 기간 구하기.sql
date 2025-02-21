@@ -6,7 +6,7 @@ from
 group by
     car_id
 having
-    average_duration >= 7
+    avg(datediff(end_date, start_date) + 1) >= 7
 order by
-    average_duration desc,
-    car_id desc
+    2 desc,
+    1 desc
