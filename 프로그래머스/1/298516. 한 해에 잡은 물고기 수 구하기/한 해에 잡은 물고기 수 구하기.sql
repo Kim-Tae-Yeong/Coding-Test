@@ -1,6 +1,6 @@
-select
-    count(*) as fish_count
-from
-    fish_info
-where
-    year(time) like '2021%'
+SELECT
+    COUNT(*) AS FISH_COUNT
+FROM
+    FISH_INFO
+WHERE
+    YEAR(TIME) = 2021
