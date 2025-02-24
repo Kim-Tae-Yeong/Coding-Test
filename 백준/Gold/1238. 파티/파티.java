@@ -7,16 +7,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public class Main_1238 {
+public class Main {
   private static int N, M, X;
   private static int ans = Integer.MIN_VALUE;
   private static List<List<int[]>> l = new ArrayList<>();
   private static Queue<int[]> q = new LinkedList<>();
-  // goDis : i에서 X까지 가는 거리
-  // backDis : X에서 i까지 오는 거리
   private static int[] goDis, backDis;
 
-  // 다익스트라를 이용해 돌아오는 거리 계산
   private static void back(int end) {
     for (int[] elem : l.get(end)) {
       q.add(elem);
@@ -40,7 +37,6 @@ public class Main_1238 {
     }
   }
 
-  // 다익스트라를 이용해 가는 거리 계산
   private static void go(int start) {
     Arrays.fill(goDis, 0);
     for (int[] elem : l.get(start)) {
@@ -79,7 +75,6 @@ public class Main_1238 {
       l.add(tmp);
     }
 
-    // 주어진 정보로 그래프 생성
     for (int i = 0; i < M; i++) {
       String[] input = br.readLine().split(" ");
       int start = Integer.parseInt(input[0]);
@@ -90,13 +85,10 @@ public class Main_1238 {
 
     goDis = new int[N + 1];
     backDis = new int[N + 1];
-    // X에서 i까지 오는 거리는 한번만 계산하면 됨
     back(X);
 
-    // i에서 X까지 가는 거리 계산
     for (int i = 1; i < N + 1; i++) {
       go(i);
-      // 가는 거리 + 오는 거리가 가장 긴 거리를 구함
       ans = Math.max(ans, goDis[X] + backDis[i]);
     }
 
