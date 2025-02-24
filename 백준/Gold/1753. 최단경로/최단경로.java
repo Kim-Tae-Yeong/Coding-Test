@@ -1,76 +1,79 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-  public static int V, E, K;
-  public static List<List<int[]>> graph = new ArrayList<>();
-  public static int[] distance;
+  static int V, E, K;
+  static List<List<Edge>> graph = new ArrayList<>();
+  static boolean[] visited;
+  static int[] distance;
+  static PriorityQueue<Edge> pq = new PriorityQueue<>((o1, o2) -> Integer.compare(o1.cost, o2.cost));
 
-  public static void dijkstra (int k) {
-    PriorityQueue<int[]> pq = new PriorityQueue<>((o1, o2) -> o1[1] - o2[1]);
-    pq.add(new int[] {k, 0});
-    distance[k] = 0;
+  static class Edge {
+    int to;
+    int cost;
+
+    public Edge(int to, int cost) {
+      this.to = to;
+      this.cost = cost;
+    }
+  }
+
+  static void dijkstra() {
+    pq.add(new Edge(K, 0));
+    distance[K] = 0;
+
     while (!pq.isEmpty()) {
-      int[] current = pq.poll();
-      int currentIdx = current[0];
-      int currentCost = current[1];
+      Edge current = pq.poll();
 
-      if (currentCost > distance[currentIdx]) {
+      if (visited[current.to]) {
         continue;
       }
+      visited[current.to] = true;
 
-      for (int[] elem : graph.get(currentIdx)) {
-        int next = elem[0];
-        int cost = elem[1];
-        if (distance[currentIdx] + cost < distance[next]) {
-          distance[next] = distance[currentIdx] + cost;
-          pq.add(new int[] {next, distance[next]});
+      for (Edge next : graph.get(current.to)) {
+        if (distance[next.to] > distance[current.to] + next.cost) {
+          distance[next.to] = distance[current.to] + next.cost;
+          pq.add(new Edge(next.to, distance[next.to]));
         }
       }
     }
   }
-  public static void main (String[] args) throws Exception {
-    // BufferedReader br = new BufferedReader(new FileReader("/Users/kimtaeyeong/CodingTest/BaekJoon/1753/1753.txt"));
+
+  public static void main(String[] args) throws Exception {
+    // BufferedReader br = new BufferedReader(new FileReader("./1753.txt"));
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    String[] num = br.readLine().split(" ");
-    V = Integer.parseInt(num[0]);
-    E = Integer.parseInt(num[1]);
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    V = Integer.parseInt(st.nextToken());
+    E = Integer.parseInt(st.nextToken());
 
-    K = Integer.parseInt(br.readLine());
+    st = new StringTokenizer(br.readLine());
+    K = Integer.parseInt(st.nextToken());
 
     for (int i = 0; i < V + 1; i++) {
       graph.add(new ArrayList<>());
     }
 
+    for (int i = 0; i < E; i++) {
+      st = new StringTokenizer(br.readLine());
+      int from = Integer.parseInt(st.nextToken());
+      int to = Integer.parseInt(st.nextToken());
+      int cost = Integer.parseInt(st.nextToken());
+      graph.get(from).add(new Edge(to, cost));
+    }
+
+    visited = new boolean[V + 1];
     distance = new int[V + 1];
     Arrays.fill(distance, Integer.MAX_VALUE);
 
-    for (int i = 0; i < E; i++) {
-      String[] input = br.readLine().split(" ");
-      int u = Integer.parseInt(input[0]);
-      int v = Integer.parseInt(input[1]);
-      int w = Integer.parseInt(input[2]);
-      graph.get(u).add(new int[] {v, w});
-    }
-
-    dijkstra(K);
-
-
+    dijkstra();
     for (int i = 1; i < V + 1; i++) {
       if (distance[i] == Integer.MAX_VALUE) {
         System.out.println("INF");
-      }
-      else {
+      } else {
         System.out.println(distance[i]);
       }
     }
-
     br.close();
   }
 }
