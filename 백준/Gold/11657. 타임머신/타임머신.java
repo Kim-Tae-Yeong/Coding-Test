@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class Main_11657 {
   static int N, M;
   static List<Edge> graph = new ArrayList<>();
   static long[] distance;
@@ -18,18 +18,27 @@ public class Main {
   }
 
   static boolean hasNegativeCycle() {
+    // 음의 사이클 존재 여부
     boolean negativeCycle = false;
+    // 초기 각 노드까지의 거리는 무한대로 설정
     Arrays.fill(distance, Long.MAX_VALUE);
+    // 시작 노드까지의 거리는 0으로 설정
     distance[1] = 0;
+    // (정점 개수 - 1)번 반복
     for (int i = 0; i < N - 1; i++) {
+      // 각 반복마다 모든 간선 확인
       for (Edge e : graph) {
+        // 시작 노드까지의 거리가 무한대가 아니고 도착 노드까지의 거리가 이전에 저장된 거리보다 더 짧다면
         if (distance[e.from] != Long.MAX_VALUE && distance[e.to] > distance[e.from] + e.cost) {
+          // 도착 노드까지의 최단 거리 갱신
           distance[e.to] = distance[e.from] + e.cost;
         }
       }
     }
 
+    // (정점 개수 - 1)번 반복 후 한 번 더 반복문 진행
     for (Edge e : graph) {
+      // 이 과정에서 최단 거리가 또 다시 갱신되면 음의 사이클 존재
       if (distance[e.from] != Long.MAX_VALUE && distance[e.to] > distance[e.from] + e.cost) {
         negativeCycle = true;
         break;
@@ -57,6 +66,7 @@ public class Main {
       graph.add(new Edge(from, to, cost));
     }
 
+    // 음의 사이클이 존재하지 않으면 각 노드까지의 최단 거리 출력
     if (!hasNegativeCycle()) {
       for (int i = 2; i < N + 1; i++) {
         if (distance[i] == Long.MAX_VALUE) {
@@ -65,7 +75,9 @@ public class Main {
           System.out.println(distance[i]);
         }
       }
-    } else {
+    }
+    // 음의 사이클 존재시 -1 출력
+    else {
       System.out.println(-1);
     }
     br.close();
