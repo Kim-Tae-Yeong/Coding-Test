@@ -1,12 +1,15 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class Main_1261 {
   static int M, N;
   static int[][] map;
   // ans[i][j] = (0, 0)에서 (i, j)까지 부수는 벽의 최소 개수
   static int[][] ans;
   static Queue<int[]> q = new LinkedList<>();
+  // 우선순위 큐에 (row, col, cnt)로 저장
+  // (0, 0)에서 (row, col)까지 가는데 부수는 벽의 최소 개수가 cnt
+  // cnt 기준 오름차순 정렬
   static PriorityQueue<int[]> pq = new PriorityQueue<>((o1, o2) -> Integer.compare(o1[2], o2[2]));
   static int[][] dir = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
 
@@ -57,10 +60,12 @@ public class Main {
       int col = info[1];
       int cnt = info[2];
 
+      // 도착 지점이면 cnt 반환
       if (row == N - 1 && col == M - 1) {
         return cnt;
       }
 
+      // cnt가 이전에 저장된 벽의 최소 개수보다 크면 continue
       if (ans[row][col] < cnt) {
         continue;
       }
@@ -70,14 +75,18 @@ public class Main {
         int nc = col + d[1];
         if (isInBound(nr, nc)) {
           int newCnt = cnt + map[nr][nc];
+          // 다음 위치까지의 벽의 최소 개수가 이전에 저장된 벽의 최소 개수보다 작으면
           if (newCnt < ans[nr][nc]) {
+            // 저장된 값 갱신
             ans[nr][nc] = newCnt;
+            // 우선순위 큐에 갱신된 정보를 집어넣음
             pq.offer(new int[] { nr, nc, newCnt });
           }
         }
       }
     }
 
+    // 만약 도달할 수 없으면 -1 반환
     return -1;
   }
 
