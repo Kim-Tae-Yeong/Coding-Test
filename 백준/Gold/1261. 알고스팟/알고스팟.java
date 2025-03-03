@@ -1,12 +1,13 @@
 import java.io.*;
 import java.util.*;
 
-public class Main_1261 {
+public class Main {
   static int M, N;
   static int[][] map;
   // ans[i][j] = (0, 0)에서 (i, j)까지 부수는 벽의 최소 개수
   static int[][] ans;
   static Queue<int[]> q = new LinkedList<>();
+  static PriorityQueue<int[]> pq = new PriorityQueue<>((o1, o2) -> Integer.compare(o1[2], o2[2]));
   static int[][] dir = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
 
   static boolean isInBound(int row, int col) {
@@ -15,11 +16,6 @@ public class Main_1261 {
 
   static int bfs() {
     q.add(new int[] { 0, 0, 0 });
-    // 초기에는 부수는 벽의 개수 무한대로 설정
-    for (int i = 0; i < N; i++) {
-      Arrays.fill(ans[i], Integer.MAX_VALUE);
-    }
-    // 시작 지점은 0으로 설정
     ans[0][0] = 0;
 
     while (!q.isEmpty()) {
@@ -30,7 +26,6 @@ public class Main_1261 {
       for (int[] d : dir) {
         int nr = row + d[0];
         int nc = col + d[1];
-        // 경계 안에 있을 때
         if (isInBound(nr, nc)) {
           // 다음 지점이 벽이고, 이전에 저장된 벽의 최소 개수보다 (현재까지 부수는 벽의 최소 개수 + 1)이 더 작으면
           if (map[nr][nc] == 1 && cnt + 1 < ans[nr][nc]) {
@@ -52,6 +47,40 @@ public class Main_1261 {
     return ans[N - 1][M - 1];
   }
 
+  static int dijkstra() {
+    pq.offer(new int[] { 0, 0, 0 });
+    ans[0][0] = 0;
+
+    while (!pq.isEmpty()) {
+      int[] info = pq.poll();
+      int row = info[0];
+      int col = info[1];
+      int cnt = info[2];
+
+      if (row == N - 1 && col == M - 1) {
+        return cnt;
+      }
+
+      if (ans[row][col] < cnt) {
+        continue;
+      }
+
+      for (int[] d : dir) {
+        int nr = row + d[0];
+        int nc = col + d[1];
+        if (isInBound(nr, nc)) {
+          int newCnt = cnt + map[nr][nc];
+          if (newCnt < ans[nr][nc]) {
+            ans[nr][nc] = newCnt;
+            pq.offer(new int[] { nr, nc, newCnt });
+          }
+        }
+      }
+    }
+
+    return -1;
+  }
+
   public static void main(String[] args) throws Exception {
     // BufferedReader br = new BufferedReader(new FileReader("./1261.txt"));
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -67,10 +96,12 @@ public class Main_1261 {
       String input = st.nextToken();
       for (int j = 0; j < M; j++) {
         map[i][j] = input.charAt(j) - '0';
+        ans[i][j] = Integer.MAX_VALUE;
       }
     }
 
-    System.out.println(bfs());
+    // System.out.println(bfs());
+    System.out.println(dijkstra());
     br.close();
   }
 }
