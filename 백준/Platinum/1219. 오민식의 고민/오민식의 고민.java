@@ -1,10 +1,12 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class Main_1219 {
   static int N, start, end, M;
   static List<Edge> graph = new ArrayList<>();
+  // city[i] : i번째 도시에 가면 벌 수 있는 돈
   static int[] city;
+  // money[i] : 시작 도시에서 i번째 도시에 갔을 때 벌 수 있는 최대 돈
   static long[] money;
 
   static class Edge {
@@ -34,6 +36,7 @@ public class Main {
   }
 
   static boolean hasPositiveCycle() {
+    // 큐에 양의 싸이클을 이루는 도시 번호 저장
     Queue<Integer> q = new LinkedList<>();
     boolean[] cycle = new boolean[N];
     for (Edge e : graph) {
@@ -43,6 +46,7 @@ public class Main {
       }
     }
 
+    // 양의 싸이클을 이루는 도시에서 bfs를 이용해 갈 수 있는 도시 확인
     while (!q.isEmpty()) {
       int current = q.poll();
       if (!cycle[current]) {
@@ -55,7 +59,10 @@ public class Main {
       }
     }
 
+    // 각 도시 탐색
     for (int i = 0; i < N; i++) {
+      // 현재 도시가 양의 싸이클에 포함됨 && 시작 도시에서 현재 도시까지 갈 수 있음 && 도착 도시도 양의 싸이클에 포함됨
+      // 결국 시작 도시 -> 양의 싸이클 -> 도착 도시로 갈 수 있는지 확인
       if (cycle[i] && money[i] != Integer.MIN_VALUE && cycle[end]) {
         return true;
       }
@@ -89,11 +96,14 @@ public class Main {
 
     money = new long[N];
     Arrays.fill(money, Integer.MIN_VALUE);
+    // 벨만 - 포드 실행
     bellmanFord();
 
+    // 도착 지점에 도달할 수 있는지 확인
     if (!canReach()) {
       System.out.println("gg");
     } else {
+      // 양의 사이클이 있는지 확인
       if (hasPositiveCycle()) {
         System.out.println("Gee");
       } else {
