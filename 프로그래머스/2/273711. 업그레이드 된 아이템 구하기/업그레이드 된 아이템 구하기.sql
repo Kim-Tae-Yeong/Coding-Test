@@ -1,19 +1,31 @@
-select
-    i.item_id,
-    i.item_name,
-    i.rarity
-from
-    item_tree as t
-    join item_info as i
-    on t.item_id = i.item_id
-where
-    parent_item_id in (
-        select
-            item_id
-        from
-            item_info
-        where
-            rarity = 'rare'
+WITH CTE AS (
+    SELECT
+        ITEM_ID
+    FROM
+        ITEM_TREE
+    WHERE
+        PARENT_ITEM_ID IN (
+            SELECT
+                ITEM_ID
+            FROM
+                ITEM_INFO
+            WHERE
+                RARITY = 'RARE'
+        )
+)
+
+SELECT
+    ITEM_ID,
+    ITEM_NAME,
+    RARITY
+FROM
+    ITEM_INFO
+WHERE
+    ITEM_ID IN (
+        SELECT
+            *
+        FROM
+            CTE
     )
-order by
-    1 desc
+ORDER BY
+    1 DESC
