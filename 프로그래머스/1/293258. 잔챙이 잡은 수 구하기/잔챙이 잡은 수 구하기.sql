@@ -1,6 +1,4 @@
-select
-    count(*) as fish_count
-from
-    fish_info
-where
-    length is null
+SELECT
+    SUM(LENGTH IS NULL) AS FISH_COUNT
+FROM
+    FISH_INFO
