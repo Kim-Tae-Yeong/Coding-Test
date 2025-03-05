@@ -1,26 +1,10 @@
-select
-    date_format(sales_date, '%Y-%m-%d') as sales_date,
-    product_id,
-    user_id,
-    sales_amount
-from
-    online_sale
-where
-    sales_date like '2022-03%'
-    
-union
-
-select
-    date_format(sales_date, '%Y-%m-%d') as sales_date,
-    product_id,
-    null as user_id,
-    sales_amount
-from
-    offline_sale
-where
-    sales_date like '2022-03%'
-    
-order by
-    sales_date,
-    product_id,
-    user_id
+SELECT DATE_FORMAT(SALES_DATE, '%Y-%m-%d') AS SALES_DATE, PRODUCT_ID, USER_ID, 
+    SUM(SALES_AMOUNT) AS SALES_AMOUNT
+FROM (SELECT ONLINE_SALE_ID, PRODUCT_ID, SALES_AMOUNT, SALES_DATE, USER_ID
+     FROM ONLINE_SALE
+     UNION ALL
+     SELECT *, NULL AS USER_ID
+     FROM OFFLINE_SALE) AS TOTAL_SALE
+WHERE SALES_DATE LIKE '2022-03%'
+GROUP BY 1, 2, 3
+ORDER BY 1, 2, 3;
