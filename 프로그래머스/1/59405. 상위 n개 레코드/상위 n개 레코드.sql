@@ -1,8 +1,8 @@
-select
-    name
-from
-    animal_ins
-order by
-    datetime
-limit
+SELECT
+    NAME
+FROM
+    ANIMAL_INS
+ORDER BY
+    DATETIME
+LIMIT
     1
