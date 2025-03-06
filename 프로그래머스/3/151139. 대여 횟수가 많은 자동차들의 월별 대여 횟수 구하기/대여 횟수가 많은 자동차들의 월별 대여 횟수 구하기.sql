@@ -1,30 +1,29 @@
-with car_count as (
-    select
-        car_id,
-        count(*) as count
-    from
-        car_rental_company_rental_history
-    where
-        start_date >= '2022-08-01' and start_date <= '2022-11-01'
-    group by
-        car_id
-    having
-        count(*) >= 5
+WITH CTE AS (
+    SELECT
+        CAR_ID
+    FROM
+        CAR_RENTAL_COMPANY_RENTAL_HISTORY
+    WHERE
+        START_DATE BETWEEN '2022-08-01' AND '2022-10-31'
+    GROUP BY
+        CAR_ID
+    HAVING
+        COUNT(CAR_ID) >= 5
 )
 
-select
-    month(h.start_date) as month,
-    h.car_id,
-    count(*) as records
-from
-    car_rental_company_rental_history as h
-    join car_count as c
-    on h.car_id = c.car_id
-where
-    h.start_date >= '2022-08-01' and h.start_date <= '2022-11-01'
-group by
-    month(h.start_date),
-    h.car_id
-order by
+SELECT
+    MONTH(H.START_DATE) AS MONTH,
+    H.CAR_ID,
+    COUNT(H.CAR_ID) AS RECORDS
+FROM
+    CAR_RENTAL_COMPANY_RENTAL_HISTORY AS H
+    JOIN CTE AS C
+    ON H.CAR_ID = C.CAR_ID
+WHERE
+    H.START_DATE BETWEEN '2022-08-01' AND '2022-10-31'
+GROUP BY
     1,
-    2 desc
+    2
+ORDER BY
+    1,
+    2 DESC
