@@ -1,8 +1,8 @@
-select
+SELECT
     *
-from
-    food_product
-order by
-    price desc
-limit
+FROM
+    FOOD_PRODUCT
+ORDER BY
+    PRICE DESC
+LIMIT
     1
