@@ -1,33 +1,38 @@
-with recursive family as (
-    select
-        id,
-        parent_id,
-        1 as generation
-    from
-        ecoli_data
-    where
-        parent_id is null
-    union all
-    select
-        t1.id,
-        t1.parent_id,
-        t2.generation + 1
-    from
-        ecoli_data as t1
-        join family as t2
-        on t1.parent_id = t2.id   
+WITH RECURSIVE CTE AS (
+    SELECT
+        ID,
+        PARENT_ID,
+        1 AS GENERATION
+    FROM
+        ECOLI_DATA
+    WHERE
+        PARENT_ID IS NULL
+    
+    UNION ALL
+    
+    SELECT
+        C.ID,
+        C.PARENT_ID,
+        (P.GENERATION + 1) AS GENERATION
+    FROM
+        ECOLI_DATA AS C
+        JOIN CTE AS P
+        ON C.PARENT_ID = P.ID
 )
 
-select
-    count(distinct t1.id) as count,
-    generation
-from
-    family as t1
-    left join ecoli_data as t2
-    on t1.id = t2.parent_id
-where
-    t2.id is null
-group by
-    generation
-order by
+SELECT
+    COUNT(ID) AS COUNT,
+    GENERATION
+FROM
+    CTE AS C1
+WHERE
+    ID NOT IN (
+        SELECT
+            C2.PARENT_ID
+        FROM
+            CTE AS C2
+        WHERE
+            C1.GENERATION + 1 = C2.GENERATION
+    )
+GROUP BY
     2
