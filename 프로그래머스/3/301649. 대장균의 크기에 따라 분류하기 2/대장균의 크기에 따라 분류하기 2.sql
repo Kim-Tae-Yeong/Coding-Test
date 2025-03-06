@@ -1,20 +1,21 @@
-with ecoli_divided as (
-    select
-        id,
-        ntile(4) over(order by size_of_colony desc) as num
-    from
-        ecoli_data
+WITH CTE AS (
+    SELECT
+        ID,
+        ROW_NUMBER() OVER (ORDER BY SIZE_OF_COLONY DESC) AS RN,
+        COUNT(*) OVER() AS TOTAL
+    FROM
+        ECOLI_DATA
 )
 
-select
-    id,
-    case
-        when num = 1 then 'CRITICAL'
-        when num = 2 then 'HIGH'
-        when num = 3 then 'MEDIUM'
-        else 'LOW'
-    end as colony_name
-from
-    ecoli_divided
-order by
+SELECT
+    ID,
+    CASE
+        WHEN RN / TOTAL <= 0.25 THEN 'CRITICAL'
+        WHEN RN / TOTAL <= 0.5 THEN 'HIGH'
+        WHEN RN / TOTAL <= 0.75 THEN 'MEDIUM'
+        ELSE 'LOW'
+    END AS COLONY_NAME
+FROM
+    CTE
+ORDER BY
     1
