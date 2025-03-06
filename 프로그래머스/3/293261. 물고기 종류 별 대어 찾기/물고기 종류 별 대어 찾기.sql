@@ -1,27 +1,24 @@
-with max_fish as (
-    select
-        fish_type,
-        max(length) as length
-    from
-        fish_info
-    group by
-        fish_type
+WITH CTE AS (
+    SELECT
+        ID,
+        FISH_TYPE,
+        LENGTH,
+        ROW_NUMBER() OVER (PARTITION BY FISH_TYPE ORDER BY LENGTH DESC) AS RN
+    FROM
+        FISH_INFO
 )
 
-select
-    i.id,
-    n.fish_name,
-    i.length
-from
-    fish_info as i
-    join fish_name_info as n
-    on i.fish_type = n.fish_type
-where
-    (i.fish_type, i.length) in (
-        select
-            *
-        from
-            max_fish
-    )
-order by
+SELECT
+    C.ID,
+    N.FISH_NAME,
+    C.LENGTH
+FROM
+    CTE AS C
+    JOIN FISH_NAME_INFO AS N
+    ON C.FISH_TYPE = N.FISH_TYPE
+WHERE
+    RN = 1
+ORDER BY
     1
+    
+    
