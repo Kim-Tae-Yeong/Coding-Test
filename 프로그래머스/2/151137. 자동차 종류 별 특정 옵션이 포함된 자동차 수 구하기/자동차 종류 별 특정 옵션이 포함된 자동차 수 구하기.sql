@@ -1,20 +1,13 @@
-with car as (
-    select
-        *
-    from
-        car_rental_company_car
-    where
-        options like '%통풍시트%' or
-        options like '%가죽시트%' or
-        options like '%열선시트%'
-)
-
-select
-    car_type,
-    count(*) as cars
-from
-    car
-group by
-    car_type
-order by
+SELECT
+    CAR_TYPE,
+    COUNT(CAR_ID) AS CARS
+FROM
+    CAR_RENTAL_COMPANY_CAR
+WHERE
+    OPTIONS LIKE '%통풍시트%' OR
+    OPTIONS LIKE '%열선시트%' OR
+    OPTIONS LIKE '%가죽시트%'
+GROUP BY
+    1
+ORDER BY
     1
