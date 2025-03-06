@@ -1,21 +1,26 @@
-with max_ecoli as (
-    select
-        year(differentiation_date) as year,
-        max(size_of_colony) as max_size
-    from
-        ecoli_data
-    group by
-        year
+WITH CTE AS (
+    SELECT
+        YEAR(DIFFERENTIATION_DATE) AS YEAR,
+        MAX(SIZE_OF_COLONY) AS MAX_SIZE
+    FROM
+        ECOLI_DATA
+    GROUP BY
+        1
 )
 
-select
-    year(differentiation_date) as year,
-    (m.max_size - e.size_of_colony) as year_dev,
-    e.id
-from
-    ecoli_data as e
-    join max_ecoli as m
-    on year(e.differentiation_date) = m.year
-order by
+SELECT
+    YEAR(E.DIFFERENTIATION_DATE) AS YEAR,
+    (
+        SELECT
+            C.MAX_SIZE
+        FROM
+            CTE AS C
+        WHERE
+            YEAR(E.DIFFERENTIATION_DATE) = C.YEAR
+    ) - E.SIZE_OF_COLONY AS YEAR_DEV,
+    E.ID
+FROM
+    ECOLI_DATA AS E
+ORDER BY
     1,
     2
