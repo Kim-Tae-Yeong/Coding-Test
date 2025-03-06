@@ -1,13 +1,12 @@
-select
-    b.category,
-    sum(s.sales) as total_sales
-from
-    book as b
-    join book_sales as s
-    on b.book_id = s.book_id
-where
-    s.sales_date like '2022-01%'
-group by
-    b.category
-order by
+SELECT
+    B.CATEGORY,
+    SUM(S.SALES) AS TOTAL_SALES
+FROM
+    BOOK AS B
+    JOIN BOOK_SALES AS S
+    ON B.BOOK_ID = S.BOOK_ID AND
+    S.SALES_DATE LIKE '2022-01%'
+GROUP BY
+    1
+ORDER BY
     1
