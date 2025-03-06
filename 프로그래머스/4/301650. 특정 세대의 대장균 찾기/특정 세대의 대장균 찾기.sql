@@ -1,22 +1,22 @@
-select
-    id
-from
-    ecoli_data
-where
-    parent_id in (
-        select
-            id
-        from
-            ecoli_data
-        where
-            parent_id in (
-                select
-                    id
-                from 
-                    ecoli_data
-                where
-                    parent_id is null
+SELECT
+    ID
+FROM
+    ECOLI_DATA
+WHERE
+    PARENT_ID IN (
+        SELECT
+            ID
+        FROM
+            ECOLI_DATA
+        WHERE
+            PARENT_ID IN (
+                SELECT
+                    ID
+                FROM
+                    ECOLI_DATA
+                WHERE
+                    PARENT_ID IS NULL
             )
     )
-order by
+ORDER BY
     1
