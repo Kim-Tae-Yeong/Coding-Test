@@ -1,4 +1,4 @@
-select
-    max(price) as max_price
-from
-    product
+SELECT
+    MAX(PRICE) AS MAX_PRICE
+FROM
+    PRODUCT
