@@ -1,4 +1,4 @@
-select
-    min(datetime)
-from
-    animal_ins
+SELECT
+    MIN(DATETIME)
+FROM
+    ANIMAL_INS
