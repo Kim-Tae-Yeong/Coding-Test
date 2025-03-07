@@ -1,32 +1,36 @@
-with max_review as (
-    select
-        member_id,
-        count(*) as count
-    from
-        rest_review
-    group by
-        member_id
-    order by
-        2 desc
-    limit
+WITH CTE AS (
+    SELECT
+        MEMBER_ID
+    FROM
+        REST_REVIEW
+    GROUP BY
+        1
+    ORDER BY
+        COUNT(REST_ID) DESC
+    LIMIT
         1
 )
 
-select
-    m.member_name,
-    r.review_text,
-    date_format(r.review_date, '%Y-%m-%d') as review_date
-from
-    member_profile as m
-    join rest_review as r
-    on m.member_id = r.member_id
-where
-    r.member_id in (
-        select
-            member_id
-        from
-            max_review
-    )
-order by
+SELECT
+    (
+        SELECT
+            MEMBER_NAME
+        FROM
+            MEMBER_PROFILE AS M
+        WHERE
+            MEMBER_ID = (
+                SELECT
+                    MEMBER_ID
+                FROM
+                    CTE
+            )
+    ) AS MEMBER_NAME,
+    R.REVIEW_TEXT,
+    DATE_FORMAT(R.REVIEW_DATE, '%Y-%m-%d') AS REVIEW_DATE
+FROM
+    REST_REVIEW AS R
+    JOIN CTE AS C
+    ON R.MEMBER_ID = C.MEMBER_ID
+ORDER BY
     3,
     2
