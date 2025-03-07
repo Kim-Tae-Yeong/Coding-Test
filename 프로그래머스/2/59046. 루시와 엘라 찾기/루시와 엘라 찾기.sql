@@ -6,12 +6,12 @@ FROM
     ANIMAL_INS
 WHERE
     NAME IN (
-        'LUCY',
-        'ELLA',
-        'PICKLE',
-        'ROGAN',
-        'SABRINA',
-        'MITTY'
+        'Lucy',
+        'Ella',
+        'Pickle',
+        'Rogan',
+        'Sabrina',
+        'Mitty'
     )
 ORDER BY
     1
