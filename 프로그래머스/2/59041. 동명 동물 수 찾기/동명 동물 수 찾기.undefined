@@ -1,13 +1,13 @@
-select
-    name,
-    count(*) as count
-from
-    animal_ins
-where
-    name is not null
-group by
-    name
-having
-    count(*) >= 2
-order by
+SELECT
+    NAME,
+    COUNT(ANIMAL_ID) AS COUNT
+FROM
+    ANIMAL_INS
+WHERE
+    NAME IS NOT NULL
+GROUP BY
+    1
+HAVING
+    COUNT(ANIMAL_ID) >= 2
+ORDER BY
     1
