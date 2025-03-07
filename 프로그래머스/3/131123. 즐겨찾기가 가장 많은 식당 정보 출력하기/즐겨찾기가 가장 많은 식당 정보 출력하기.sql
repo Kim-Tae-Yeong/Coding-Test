@@ -1,19 +1,21 @@
-select
-    food_type,
-    rest_id,
-    rest_name,
-    favorites
-from
-    rest_info
-where
-    (food_type, favorites) in (
-        select
-            food_type,
-            max(favorites)
-        from
-            rest_info
-        group by
-            food_type
-    )
-order by
-    1 desc
+WITH CTE AS (
+    SELECT
+        FOOD_TYPE,
+        MAX(FAVORITES) AS FAVORITES
+    FROM
+        REST_INFO
+    GROUP BY
+        1
+)
+
+SELECT
+    I.FOOD_TYPE,
+    I.REST_ID,
+    I.REST_NAME,
+    I.FAVORITES
+FROM
+    REST_INFO AS I
+    JOIN CTE AS C
+    ON (I.FOOD_TYPE, I.FAVORITES) = (C.FOOD_TYPE, C.FAVORITES)
+ORDER BY
+    1 DESC
