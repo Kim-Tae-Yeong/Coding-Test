@@ -1,16 +1,15 @@
-select
-    p.product_id,
-    p.product_name,
-    p.price * sum(o.amount) as total_sales
-from
-    food_product as p
-    join food_order as o
-    on p.product_id = o.product_id
-where
-    o.produce_date like '2022-05%'
-group by
-    p.product_id,
-    p.product_name
-order by
-    3 desc,
+SELECT
+    P.PRODUCT_ID,
+    P.PRODUCT_NAME,
+    SUM(P.PRICE * O.AMOUNT) AS TOTAL_SALES
+FROM
+    FOOD_PRODUCT AS P
+    JOIN FOOD_ORDER AS O
+    ON P.PRODUCT_ID = O.PRODUCT_ID AND
+    O.PRODUCE_DATE LIKE '2022-05%'
+GROUP BY
+    1,
+    2
+ORDER BY
+    3 DESC,
     1
