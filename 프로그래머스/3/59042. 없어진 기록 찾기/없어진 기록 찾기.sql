@@ -1,14 +1,14 @@
-select
-    animal_id,
-    name
-from
-    animal_outs
-where
-    animal_id not in (
-        select
-            animal_id
-        from
-            animal_ins
+SELECT
+    ANIMAL_ID,
+    NAME
+FROM
+    ANIMAL_OUTS
+WHERE
+    ANIMAL_ID NOT IN (
+        SELECT
+            ANIMAL_ID
+        FROM
+            ANIMAL_INS
     )
-order by
+ORDER BY
     1
