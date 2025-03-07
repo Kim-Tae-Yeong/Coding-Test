@@ -1,11 +1,11 @@
-select
-    hour(datetime) as hour,
-    count(*) as count
-from
-    animal_outs
-where
-    hour(datetime) >= 9 and hour(datetime) <= 19
-group by
-    hour(datetime)
-order by
+SELECT
+    HOUR(DATETIME) AS HOUR,
+    COUNT(ANIMAL_ID) AS COUNT
+FROM
+    ANIMAL_OUTS
+WHERE
+    HOUR(DATETIME) BETWEEN 9 AND 19
+GROUP BY
+    1
+ORDER BY
     1
