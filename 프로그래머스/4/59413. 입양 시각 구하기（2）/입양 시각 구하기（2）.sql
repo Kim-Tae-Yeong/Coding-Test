@@ -1,23 +1,23 @@
-with recursive time as (
-    select
-        0 as hour
-    union all
-    select
-        hour + 1
-    from
-        time
-    where
-        hour < 23
+WITH RECURSIVE CTE AS (
+    SELECT
+        0 AS HOUR
+    UNION ALL
+    SELECT
+        HOUR + 1
+    FROM
+        CTE
+    WHERE
+        HOUR < 23
 )
 
-select
-    t.hour,
-    count(o.animal_id) as count
-from
-    time as t
-    left join animal_outs as o
-    on t.hour = hour(o.datetime)
-group by
-    t.hour
-order by
+SELECT
+    C.HOUR,
+    COUNT(A.ANIMAL_ID) AS COUNT
+FROM
+    CTE AS C
+    LEFT JOIN ANIMAL_OUTS AS A
+    ON C.HOUR = HOUR(A.DATETIME)
+GROUP BY
+    1
+ORDER BY
     1
