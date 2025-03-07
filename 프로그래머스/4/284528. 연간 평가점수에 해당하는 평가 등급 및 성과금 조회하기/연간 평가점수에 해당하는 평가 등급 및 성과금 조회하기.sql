@@ -1,29 +1,31 @@
-select
-    e.emp_no,
-    e.emp_name,
-    case
-        when g.score / 2 >= 96 then 'S'
-        when g.score / 2 >= 90 then 'A'
-        when g.score / 2 >= 80 then 'B'
-        else 'C'
-    end as grade,
-    case
-        when g.score / 2 >= 96 then e.sal * 0.2
-        when g.score / 2 >= 90 then e.sal * 0.15
-        when g.score / 2 >= 80 then e.sal * 0.1
-        else 0
-    end as bonus
-from
-    hr_employees as e
-    join (
-        select
-            emp_no,
-            sum(score) as score
-        from
-            hr_grade
-        group by
-            emp_no
-    ) as g
-    on e.emp_no = g.emp_no
-order by
+WITH CTE AS (
+    SELECT
+        EMP_NO,
+        AVG(SCORE) AS SCORE
+    FROM
+        HR_GRADE
+    GROUP BY
+        1
+)
+
+SELECT
+    E.EMP_NO,
+    E.EMP_NAME,
+    CASE
+        WHEN C.SCORE >= 96 THEN 'S'
+        WHEN C.SCORE >= 90 THEN 'A'
+        WHEN C.SCORE >= 80 THEN 'B'
+        ELSE 'C'
+    END AS GRADE,
+    CASE
+        WHEN C.SCORE >= 96 THEN E.SAL * 0.2
+        WHEN C.SCORE >= 90 THEN E.SAL * 0.15
+        WHEN C.SCORE >= 80 THEN E.SAL * 0.1
+        ELSE 0
+    END AS BONUS
+FROM
+    HR_EMPLOYEES AS E
+    JOIN CTE AS C
+    ON E.EMP_NO = C.EMP_NO
+ORDER BY
     1
