@@ -1,13 +1,20 @@
-select
-    p.product_code,
-    sum(s.sales_amount) * p.price as sales
-from
-    product as p
-    join offline_sale as s
-    on p.product_id = s.product_id
-group by
-    p.product_id,
-    p.product_code
-order by
-    2 desc,
+WITH CTE AS (
+    SELECT
+        PRODUCT_ID,
+        SUM(SALES_AMOUNT) AS SALES_AMOUNT
+    FROM
+        OFFLINE_SALE
+    GROUP BY
+        1
+)
+
+SELECT
+    P.PRODUCT_CODE,
+    P.PRICE * C.SALES_AMOUNT AS SALES
+FROM
+    PRODUCT AS P
+    JOIN CTE AS C
+    ON P.PRODUCT_ID = C.PRODUCT_ID
+ORDER BY
+    2 DESC,
     1
