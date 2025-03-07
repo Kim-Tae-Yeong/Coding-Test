@@ -1,22 +1,25 @@
-select
-    year(sales_date) as year,
-    month(sales_date) as month,
-    count(distinct user_id) as purchased_users,
-    round(count(distinct user_id) / (select count(*) from user_info where year(joined) = 2021), 1) as purchased_ratio
-from
-    online_sale
-where
-    user_id in (
-        select
-            user_id
-        from
-            user_info
-        where
-            year(joined) = 2021
-    )
-group by
-    year(sales_date),
-    month(sales_date)
-order by
+WITH CTE AS (
+    SELECT
+        USER_ID,
+        COUNT(USER_ID) OVER () AS TOTAL
+    FROM
+        USER_INFO
+    WHERE
+        YEAR(JOINED) = 2021
+)
+
+SELECT
+    YEAR(S.SALES_DATE) AS YEAR,
+    MONTH(S.SALES_DATE) AS MONTH,
+    COUNT(DISTINCT S.USER_ID) AS PURCHASED_USERS,
+    ROUND(COUNT(DISTINCT S.USER_ID) / C.TOTAL, 1) AS PURCHASED_RATIO
+FROM
+    ONLINE_SALE AS S
+    JOIN CTE AS C
+    ON S.USER_ID = C.USER_ID
+GROUP BY
+    1,
+    2
+ORDER BY
     1,
     2
