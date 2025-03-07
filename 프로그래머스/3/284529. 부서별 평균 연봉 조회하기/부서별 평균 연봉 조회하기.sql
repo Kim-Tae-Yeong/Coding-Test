@@ -1,13 +1,20 @@
-select
-    d.dept_id,
-    d.dept_name_en,
-    round(avg(e.sal), 0) as avg_sal
-from
-    hr_department as d
-    join hr_employees as e
-    on d.dept_id = e.dept_id
-group by
-    d.dept_id,
-    d.dept_name_en
-order by
-    3 desc
+WITH CTE AS (
+    SELECT
+        DEPT_ID,
+        ROUND(AVG(SAL), 0) AS AVG_SAL
+    FROM
+        HR_EMPLOYEES
+    GROUP BY
+        1
+)
+
+SELECT
+    D.DEPT_ID,
+    D.DEPT_NAME_EN,
+    C.AVG_SAL
+FROM
+    HR_DEPARTMENT AS D
+    JOIN CTE AS C
+    ON D.DEPT_ID = C.DEPT_ID
+ORDER BY
+    3 DESC
