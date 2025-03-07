@@ -1,9 +1,9 @@
-select
-    count(id) as fish_count,
-    month(time) as month
-from
-    fish_info
-group by
-    month(time)
-order by
+SELECT
+    COUNT(ID) AS FISH_COUNT,
+    MONTH(TIME) AS MONTH
+FROM
+    FISH_INFO
+GROUP BY
+    2
+ORDER BY
     2
