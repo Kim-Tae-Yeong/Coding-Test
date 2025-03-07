@@ -1,9 +1,14 @@
-select
-    animal_type,
-    count(*) as count
-from
-    animal_ins
-group by
-    animal_type
-order by
+SELECT
+    ANIMAL_TYPE,
+    COUNT(ANIMAL_ID) AS COUNT
+FROM
+    ANIMAL_INS
+WHERE
+    ANIMAL_TYPE IN (
+        'DOG',
+        'CAT'
+    )
+GROUP BY
+    1
+ORDER BY
     1
