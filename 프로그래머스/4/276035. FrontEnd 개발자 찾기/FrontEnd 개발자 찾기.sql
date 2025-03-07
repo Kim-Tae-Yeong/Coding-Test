@@ -1,12 +1,12 @@
-select
-    distinct d.id,
-    d.email,
-    d.first_name,
-    d.last_name
-from
-    developers as d
-    join skillcodes as s
-    on d.skill_code & s.code = s.code and
-    s.category = 'Front End'
-order by
+SELECT
+    DISTINCT D.ID,
+    D.EMAIL,
+    D.FIRST_NAME,
+    D.LAST_NAME
+FROM
+    DEVELOPERS AS D
+    JOIN SKILLCODES AS S
+    ON S.CATEGORY = 'Front End' AND
+    D.SKILL_CODE & S.CODE = S.CODE
+ORDER BY
     1
