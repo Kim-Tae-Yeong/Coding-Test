@@ -1,24 +1,24 @@
-select
-    concat(
-        '/home/grep/src/',
-        f.board_id,
+SELECT
+    CONCAT(
+        "/home/grep/src/",
+        BOARD_ID,
         "/",
-        f.file_id,
-        f.file_name,
-        f.file_ext
-    ) as file_path
-from
-    used_goods_file as f
-    join (
-        select
-            board_id
-        from
-            used_goods_board
-        order by
-            views desc
-        limit
+        FILE_ID,
+        FILE_NAME,
+        FILE_EXT
+    ) AS FILE_PATH
+FROM
+    USED_GOODS_FILE
+WHERE
+    BOARD_ID = (
+        SELECT
+            BOARD_ID
+        FROM
+            USED_GOODS_BOARD
+        ORDER BY
+            VIEWS DESC
+        LIMIT
             1
-    ) as b
-    on f.board_id = b.board_id
-order by
-    f.file_id desc
+    )
+ORDER BY
+    FILE_ID DESC
