@@ -7,4 +7,4 @@ WHERE
     ANIMAL_TYPE = 'DOG' AND
     NAME LIKE '%EL%'
 ORDER BY
-    NAME
+    2
