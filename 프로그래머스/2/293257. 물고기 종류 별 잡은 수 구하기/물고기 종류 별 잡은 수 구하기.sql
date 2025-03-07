@@ -1,11 +1,11 @@
-select
-    count(i.id) as fish_count,
-    fish_name
-from
-    fish_info as i
-    join fish_name_info as n
-    on i.fish_type = n.fish_type
-group by
-    fish_name
-order by
-    1 desc
+SELECT
+    COUNT(I.ID) AS FISH_COUNT,
+    N.FISH_NAME
+FROM
+    FISH_INFO AS I
+    JOIN FISH_NAME_INFO AS N
+    ON I.FISH_TYPE = N.FISH_TYPE
+GROUP BY
+    2
+ORDER BY
+    1 DESC
