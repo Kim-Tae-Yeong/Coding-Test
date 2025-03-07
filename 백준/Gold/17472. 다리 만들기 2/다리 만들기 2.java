@@ -1,11 +1,14 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class Main_17472 {
+  // num : 섬의 총 개수
   static int N, M, num;
   static int[][] map;
   static int[][] dir = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
+  // graph.get(i) : i번 노드에 연결된 간선 저장
   static List<List<Edge>> graph = new ArrayList<>();
+  // viisted[i] : i번 노드 방문 여부
   static boolean[] visited;
 
   static class Edge {
@@ -21,6 +24,7 @@ public class Main {
     return 0 <= row && row < N && 0 <= col && col < M;
   }
 
+  // bfs를 이용해 현재 위치랑 연결된 모든 땅에 동일한 번호를 부여함
   static void divideIsland(int row, int col, int num) {
     Queue<int[]> q = new LinkedList<>();
     q.add(new int[] { row, col });
@@ -116,20 +120,29 @@ public class Main {
   }
 
   static int prim() {
+    // 현재까지 방문한 노드에 연결된 간선 중 방문하지 않은 노드와 연결된 간선을 우선순위 큐에 저장
+    // 간선의 비용을 오름차순으로 정렬
     PriorityQueue<Edge> pq = new PriorityQueue<>((o1, o2) -> Integer.compare(o1.cost, o2.cost));
+    // 시작 노드는 1로 설정(0번 가상 노드에서 1번 노드까지 비용이 0인 간선으로 연결)
     pq.add(new Edge(1, 0));
+    // 다리의 최소 길이
     int mst = 0;
+    // 간선의 개수
     int cnt = 0;
 
     while (!pq.isEmpty()) {
       Edge e = pq.poll();
+      // 이전에 방문한 노드이면 continue
       if (visited[e.to]) {
         continue;
       }
+      // 현재 노드 방문 여부 갱신
       visited[e.to] = true;
       mst += e.cost;
+      // 간선 개수 추가
       cnt++;
 
+      // 현재 노드에 연결된 간선 중 방문하지 않은 노드로 연결되는 간선을 우선순위 큐에 추가
       for (Edge next : graph.get(e.to)) {
         if (!visited[next.to]) {
           pq.add(next);
@@ -137,7 +150,8 @@ public class Main {
       }
     }
 
-    if (cnt == num - 1) {
+    // 0번 가상 노드를 추가했기 때문에 간선의 개수가 섬의 개수와 같으면 모든 섬을 다 연결할 수 있음
+    if (cnt == num) {
       return mst;
     } else {
       return -1;
@@ -153,6 +167,7 @@ public class Main {
     M = Integer.parseInt(st.nextToken());
     map = new int[N][M];
 
+    // 초기에 바다는 0, 섬은 -1로 받음
     for (int i = 0; i < N; i++) {
       st = new StringTokenizer(br.readLine());
       for (int j = 0; j < M; j++) {
@@ -160,29 +175,32 @@ public class Main {
       }
     }
 
-    num = 1;
+    // 각 섬에 1번부터 번호를 부여함
+    num = 0;
     for (int i = 0; i < N; i++) {
       for (int j = 0; j < M; j++) {
         if (map[i][j] == -1) {
-          divideIsland(i, j, num);
-          num++;
+          divideIsland(i, j, ++num);
         }
       }
     }
 
-    for (int i = 0; i < num; i++) {
+    for (int i = 0; i < num + 1; i++) {
       graph.add(new ArrayList<>());
     }
 
+    // 현재 위치가 섬이면
     for (int i = 0; i < N; i++) {
       for (int j = 0; j < M; j++) {
         if (map[i][j] != 0) {
+          // 다른 섬과의 거리를 구함
           findDistance(i, j, map[i][j]);
         }
       }
     }
 
-    visited = new boolean[num];
+    visited = new boolean[num + 1];
+    // 프림 알고리즘으로 다리 길이의 최솟값을 구함
     System.out.println(prim());
     br.close();
   }
