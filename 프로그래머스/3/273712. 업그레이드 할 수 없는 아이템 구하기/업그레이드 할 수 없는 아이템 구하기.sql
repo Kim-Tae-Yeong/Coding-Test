@@ -1,19 +1,31 @@
-select
-    i.item_id,
-    i.item_name,
-    i.rarity
-from
-    item_info as i
-    join item_tree as t
-    on i.item_id = t.item_id
-where
-    i.item_id not in (
-        select
-            parent_item_id
-        from
-            item_tree
-        where
-            parent_item_id is not null
+SELECT
+    T.ITEM_ID,
+    (
+        SELECT
+            I.ITEM_NAME
+        FROM
+            ITEM_INFO AS I
+        WHERE
+            T.ITEM_ID = I.ITEM_ID
+    ) AS ITEM_NAME,
+    (
+        SELECT
+            I.RARITY
+        FROM
+            ITEM_INFO AS I
+        WHERE
+            T.ITEM_ID = I.ITEM_ID
+    ) AS RARITY
+FROM
+    ITEM_TREE AS T
+WHERE
+    ITEM_ID NOT IN (
+        SELECT
+            PARENT_ITEM_ID
+        FROM
+            ITEM_TREE
+        WHERE
+            PARENT_ITEM_ID IS NOT NULL
     )
-order by
-    1 desc
+ORDER BY
+    1 DESC
