@@ -1,11 +1,9 @@
-with fish_length as (
-    select
-        coalesce(length, 10) as length
-    from
-        fish_info
-)
-
-select
-    round(avg(length), 2) as average_length
-from
-    fish_length
+SELECT
+    ROUND(AVG(
+        CASE
+            WHEN LENGTH IS NULL THEN 10
+            ELSE LENGTH
+        END
+    ), 2) AS AVERAGE_LENGTH
+FROM
+    FISH_INFO
