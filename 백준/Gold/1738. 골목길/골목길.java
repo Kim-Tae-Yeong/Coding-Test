@@ -1,12 +1,11 @@
 import java.io.*;
 import java.util.*;
 
-public class Main_1738 {
-  static int n, m, u, v, w;
-  static List<Edge> graph = new ArrayList<>();
-  // distance[i] : 시작 노드에서 i번째 노드까지 가는데 최대 비용
-  // path[i] : i번째 노드로 들어노는 노드 번호
-  static int[] distance, path;
+public class Main {
+  static int n, m;
+  static int[] path;
+  static List<Edge> l = new ArrayList<>();
+  static List<Integer> cycle = new ArrayList<>();
 
   static class Edge {
     int from, to, cost;
@@ -19,86 +18,78 @@ public class Main_1738 {
   }
 
   static boolean hasPositiveCycle() {
-    // 시작 노드까지의 거리는 0으로 설정
-    distance[1] = 0;
-    // 벨만 - 포드 실행
+    int[] dist = new int[n + 1];
+    Arrays.fill(dist, Integer.MIN_VALUE);
+    dist[1] = 0;
+
+    path = new int[n + 1];
+
     for (int i = 0; i < n - 1; i++) {
-      for (Edge e : graph) {
-        if (distance[e.from] != Integer.MIN_VALUE && distance[e.to] < distance[e.from] + e.cost) {
-          distance[e.to] = distance[e.from] + e.cost;
+      for (int j = 0; j < m; j++) {
+        Edge e = l.get(j);
+        if (dist[e.from] != Integer.MIN_VALUE && dist[e.to] < dist[e.from] + e.cost) {
+          dist[e.to] = dist[e.from] + e.cost;
           path[e.to] = e.from;
         }
       }
     }
 
-    // 양의 사이클이 있는지 확인
-    // 있다면 큐에 사이클을 이루는 노드 저장
-    Queue<Integer> q = new LinkedList<>();
-    boolean[] cycle = new boolean[n + 1];
-    for (Edge e : graph) {
-      if (distance[e.from] != Integer.MIN_VALUE && distance[e.to] < distance[e.from] + e.cost) {
-        cycle[e.to] = true;
-        q.offer(e.to);
+    boolean hasCycle = false;
+    for (int i = 0; i < m; i++) {
+      Edge e = l.get(i);
+      if (dist[e.from] != Integer.MIN_VALUE && dist[e.to] < dist[e.from] + e.cost) {
+        cycle.add(e.to);
+        hasCycle = true;
       }
     }
 
-    // 해당 사이클로부터 bfs를 통해 도착 노드까지 갈 수 있는지 확인
-    while (!q.isEmpty()) {
-      int current = q.poll();
-      if (current == n) {
-        return true;
-      }
-      for (Edge e : graph) {
-        if (e.from == current && !cycle[e.to]) {
-          cycle[e.to] = true;
-          q.offer(e.to);
+    return (hasCycle ? true : false);
+  }
+
+  static boolean isInCycle() {
+    boolean[] visited = new boolean[n + 1];
+
+    for (Integer elem : cycle) {
+      if (!visited[elem]) {
+        visited[elem] = true;
+        for (Edge e : l) {
+          if (elem == e.from) {
+            visited[e.to] = true;
+          }
         }
       }
     }
 
-    return false;
+    return (visited[1] || visited[n] ? true : false);
   }
 
   public static void main(String[] args) throws Exception {
     // BufferedReader br = new BufferedReader(new FileReader("./1738.txt"));
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
     StringTokenizer st = new StringTokenizer(br.readLine());
     n = Integer.parseInt(st.nextToken());
     m = Integer.parseInt(st.nextToken());
-    distance = new int[n + 1];
-    path = new int[n + 1];
-    Arrays.fill(distance, Integer.MIN_VALUE);
 
     for (int i = 0; i < m; i++) {
       st = new StringTokenizer(br.readLine());
-      u = Integer.parseInt(st.nextToken());
-      v = Integer.parseInt(st.nextToken());
-      w = Integer.parseInt(st.nextToken());
-      graph.add(new Edge(u, v, w));
+      int u = Integer.parseInt(st.nextToken());
+      int v = Integer.parseInt(st.nextToken());
+      int w = Integer.parseInt(st.nextToken());
+      l.add(new Edge(u, v, w));
     }
 
-    if (hasPositiveCycle()) {
+    if (hasPositiveCycle() && isInCycle()) {
       System.out.println(-1);
-    }
-    // 양의 사이클이 없다면
-    else {
-      StringBuilder sb = new StringBuilder();
-      Deque<Integer> d = new ArrayDeque<>();
-
-      // 도착 지점부터 시작 지점까지 경로를 역추적
-      int prev = n;
-      while (prev != 0) {
-        d.push(prev);
-        prev = path[prev];
+    } else {
+      Stack<Integer> s = new Stack<>();
+      int current = n;
+      while (current != 0) {
+        s.add(current);
+        current = path[current];
       }
-
-      // 역추적한 경로를 원래대로 출력
-      while (!d.isEmpty()) {
-        sb.append(d.pop()).append(" ");
+      while (!s.isEmpty()) {
+        System.out.print(s.pop() + " ");
       }
-
-      System.out.println(sb.toString().trim());
     }
     br.close();
   }
